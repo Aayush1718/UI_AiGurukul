@@ -1,0 +1,42 @@
+export default function FeatureCard({
+  title,
+  description,
+  onClick
+}) {
+  return (
+    <div
+      onClick={onClick}
+      className="
+        h-full
+        min-h-[220px]
+        cursor-pointer
+        rounded-3xl
+        border
+        border-zinc-800
+        bg-zinc-950
+        p-8
+        md:p-10
+        transition-all
+        duration-300
+        hover:border-zinc-600
+        hover:-translate-y-1
+      "
+    >
+      <div className="flex h-full flex-col justify-between">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-semibold text-white">
+            {title}
+          </h2>
+
+          <p className="mt-4 max-w-sm text-zinc-400 leading-relaxed">
+            {description}
+          </p>
+        </div>
+
+        <div className="mt-8 text-sm font-medium text-zinc-500">
+          Get Started →
+        </div>
+      </div>
+    </div>
+  );
+}
