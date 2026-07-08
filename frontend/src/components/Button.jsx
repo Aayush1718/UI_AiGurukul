@@ -2,8 +2,8 @@ export default function Button({
   children,
   variant = "primary",
   className = "",
+  ...props
 }) {
-
   return (
     <button
       className={`
@@ -16,6 +16,7 @@ export default function Button({
         duration-200 border border-zinc-700 text-white hover:border-zinc-500
         ${className}
       `}
+      {...props}
     >
       {children}
     </button>

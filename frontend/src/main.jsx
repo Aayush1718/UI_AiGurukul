@@ -13,11 +13,9 @@ const logtoConfig = {
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <LogtoProvider config={logtoConfig}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </LogtoProvider>
-  </React.StrictMode>
+  <LogtoProvider config={logtoConfig}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </LogtoProvider>
 );
