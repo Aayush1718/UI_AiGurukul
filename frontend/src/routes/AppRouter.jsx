@@ -7,6 +7,7 @@ import CallbackPage from "../pages/CallbackPage.jsx";
 import CompleteProfilePage from "../pages/CompleteProfilePage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
+import FeasibilityAnalysisPage from "../pages/FeasibilityAnalysisPage.jsx";
 
 export default function AppRouter() {
   return (
@@ -35,6 +36,14 @@ export default function AppRouter() {
         element={
           <ProtectedRoute>
             <BuildingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/feasibility"
+        element={
+          <ProtectedRoute>
+            <FeasibilityAnalysisPage />
           </ProtectedRoute>
         }
       />

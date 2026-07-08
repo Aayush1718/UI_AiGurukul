@@ -15,6 +15,14 @@ export default function LandingPage() {
     }
   };
 
+  const handleFeasibilityClick = () => {
+    if (isAuthenticated) {
+      navigate("/feasibility");
+    } else {
+      signIn(`${window.location.origin}/callback`);
+    }
+  };
+
   return (
     <div className="h-screen bg-[#0A0A0A] flex flex-col">
       <Navbar />
@@ -88,6 +96,7 @@ export default function LandingPage() {
             <FeatureCard
               title="Feasibility Analysis"
               description="Analyze zoning regulations, setbacks, constraints and overall project feasibility before construction begins."
+              onClick={handleFeasibilityClick}
             />
 
             <FeatureCard
