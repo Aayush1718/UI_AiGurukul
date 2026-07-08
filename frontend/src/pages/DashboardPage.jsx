@@ -1,8 +1,8 @@
 import { useState } from "react";
-import DashboardNavbar from "../components/DashboardNavbar";
-import ProjectCard from "../components/ProjectCard";
-import CreateProjectModal from "../components/CreateProjectModal";
-import CollaboratorsModal from "../components/CollaboratorsModal";
+import DashboardNavbar from "../components/DashboardNavbar.jsx";
+import ProjectCard from "../components/ProjectCard.jsx";
+import CreateProjectModal from "../components/CreateProjectModal.jsx";
+import CollaboratorsModal from "../components/CollaboratorsModal.jsx";
 import { useNavigate } from "react-router-dom";
 
 export default function DashboardPage() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import BuildingSidebar from "../components/BuildingSidebar";
-import PlannerChat from "../components/PlannerChat";
-import PlotDesigner from "../components/PlotDesigner";
+import BuildingSidebar from "../components/BuildingSidebar.jsx";
+import PlannerChat from "../components/PlannerChat.jsx";
+import PlotDesigner from "../components/PlotDesigner.jsx";
 
 export default function BuildingPage() {
   const [mobileTab, setMobileTab] = useState("plot");

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import AuthCard from "../components/AuthCard";
+import AuthCard from "../components/AuthCard.jsx";
 
 export default function SignInPage() {
   return (
