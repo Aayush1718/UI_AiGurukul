@@ -5,6 +5,8 @@ import SignInPage from "../pages/SignInPage.jsx";
 import SignUpPage from "../pages/SignUpPage.jsx";
 import DashboardPage from "../pages/DashboardPage.jsx";
 import BuildingPage from "../pages/BuildingPage.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -12,6 +14,7 @@ export default function AppRouter() {
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
       <Route
         path="/project/:id"
         element={<BuildingPage />}

@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
+
 export default function DashboardNavbar() {
+  const navigate = useNavigate();
   return (
     <header className="border-b border-zinc-900">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
@@ -7,6 +11,7 @@ export default function DashboardNavbar() {
         </h1>
 
         <button
+          onClick={() => navigate("/profile")}
           className="
             flex items-center gap-3
             rounded-3xl
