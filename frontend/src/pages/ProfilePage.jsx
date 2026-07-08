@@ -230,7 +230,7 @@ export default function ProfilePage() {
             <button
               onClick={() => {
                 const endpoint = import.meta.env.VITE_LOGTO_ENDPOINT;
-                window.location.href = `${endpoint}${endpoint.endsWith('/') ? '' : '/'}my-account`;
+                window.location.href = `${endpoint}${endpoint.endsWith('/') ? '' : '/'}account`;
               }}
               className="
                 flex
