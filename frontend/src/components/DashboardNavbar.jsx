@@ -1,8 +1,10 @@
 import { useLogto } from "@logto/react";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 export default function DashboardNavbar() {
+  const navigate = useNavigate();
   const { signOut, getIdTokenClaims } = useLogto();
   const [userName, setUserName] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -41,7 +43,6 @@ export default function DashboardNavbar() {
   const handleSignOut = () => {
     signOut(`${window.location.origin}/`);
   };
-
   return (
     <header className="border-b border-zinc-900">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
@@ -118,6 +119,35 @@ export default function DashboardNavbar() {
                     {userName || "User"}
                   </p>
                 </div>
+
+                {/* Profile Link */}
+                <button
+                  onClick={() => {
+                    setDropdownOpen(false);
+                    navigate("/profile");
+                  }}
+                  className="
+                    mt-1 w-full flex items-center gap-2
+                    rounded-lg px-3 py-2.5
+                    text-sm text-zinc-400
+                    transition hover:bg-zinc-900 hover:text-white
+                  "
+                >
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                    />
+                  </svg>
+                  Profile
+                </button>
 
                 {/* Sign out */}
                 <button

@@ -6,6 +6,7 @@ import BuildingPage from "../pages/BuildingPage.jsx";
 import CallbackPage from "../pages/CallbackPage.jsx";
 import CompleteProfilePage from "../pages/CompleteProfilePage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
+import ProfilePage from "../pages/ProfilePage.jsx";
 
 export default function AppRouter() {
   return (
@@ -18,6 +19,14 @@ export default function AppRouter() {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />
