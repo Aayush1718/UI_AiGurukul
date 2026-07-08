@@ -228,6 +228,39 @@ export default function ProfilePage() {
             </button>
 
             <button
+              onClick={() => {
+                const endpoint = import.meta.env.VITE_LOGTO_ENDPOINT;
+                window.location.href = `${endpoint}${endpoint.endsWith('/') ? '' : '/'}my-account`;
+              }}
+              className="
+                flex
+                w-full
+                items-center
+                justify-between
+                border-b
+                border-zinc-800
+                px-6
+                py-6
+                hover:bg-zinc-800/50
+                transition
+              "
+            >
+              <div className="text-left">
+                <p className="font-medium">
+                  Manage Security & Password
+                </p>
+
+                <p className="text-sm text-zinc-500">
+                  Update password & authentication
+                </p>
+              </div>
+
+              <span className="text-zinc-500">
+                ↗
+              </span>
+            </button>
+
+            <button
               onClick={handleLogout}
               className="
                 flex
