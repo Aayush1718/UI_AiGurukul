@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLogto } from "@logto/react";
+import { supabase } from "../lib/supabaseClient";
 import Button from "../components/Button.jsx";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const { signOut, getIdTokenClaims } = useLogto();
 
   const [showDeleteModal, setShowDeleteModal] =
     useState(false);
@@ -13,27 +16,59 @@ export default function ProfilePage() {
 
   const [profileData, setProfileData] =
     useState({
-      name: "Aayush Aggarwal",
-      email: "aayush@example.com",
+      name: "",
+      email: "",
+      userId: "",
     });
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const claims = await getIdTokenClaims();
+        if (claims?.sub) {
+          const { data } = await supabase
+            .from("users")
+            .select("name, email")
+            .eq("user_id", claims.sub)
+            .single();
+          if (data) {
+            setProfileData({
+              name: data.name || "",
+              email: data.email || claims.email || "",
+              userId: claims.sub,
+            });
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
+      }
+    };
+
+    fetchProfile();
+  }, [getIdTokenClaims]);
+
   const initials = profileData.name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+    ? profileData.name
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
 
   const handleLogout = () => {
-    localStorage.clear();
-    navigate("/signin");
+    signOut(`${window.location.origin}/`);
   };
 
   const handleDeleteAccount = async () => {
     try {
-      // await api.delete("/users/me");
-
-      localStorage.clear();
-      navigate("/signup");
+      if (profileData.userId) {
+        await supabase
+          .from("users")
+          .delete()
+          .eq("user_id", profileData.userId);
+      }
+      signOut(`${window.location.origin}/`);
     } catch (err) {
       console.error(err);
     }
@@ -42,39 +77,27 @@ export default function ProfilePage() {
   const [showEditModal, setShowEditModal] =
     useState(false);
 
-  const [showPasswordModal, setShowPasswordModal] =
-    useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const [passwordData, setPasswordData] =
-    useState({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
-
-  const handlePasswordChange = async () => {
-    if (
-      passwordData.newPassword !==
-      passwordData.confirmPassword
-    ) {
-      alert("Passwords do not match");
-      return;
-    }
-
+  const handleSaveProfile = async () => {
+    if (!profileData.userId) return;
     try {
-      setShowPasswordModal(false);
-
-      setPasswordData({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-
-      alert("Password updated");
+      setIsSaving(true);
+      await supabase
+        .from("users")
+        .update({ name: profileData.name })
+        .eq("user_id", profileData.userId);
+      setShowEditModal(false);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to update profile", err);
+    } finally {
+      setIsSaving(false);
     }
   };
+
+
+
+
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-white">
@@ -196,38 +219,6 @@ export default function ProfilePage() {
 
                 <p className="text-sm text-zinc-500">
                   Update your personal information
-                </p>
-              </div>
-
-              <span className="text-zinc-500">
-                →
-              </span>
-            </button>
-
-            <button
-              onClick={() =>
-                setShowPasswordModal(true)
-              }
-              className="
-                flex
-                w-full
-                items-center
-                justify-between
-                border-b
-                border-zinc-800
-                px-6
-                py-6
-                hover:bg-zinc-800/50
-                transition
-              "
-            >
-              <div className="text-left">
-                <p className="font-medium">
-                  Change Password
-                </p>
-
-                <p className="text-sm text-zinc-500">
-                  Secure your account
                 </p>
               </div>
 
@@ -483,188 +474,24 @@ export default function ProfilePage() {
               </button>
 
               <button
-                onClick={() =>
-                  setShowEditModal(false)
-                }
+                onClick={handleSaveProfile}
+                disabled={isSaving}
                 className="
                   rounded-xl
                   bg-violet-600
                   px-4
                   py-2
                   hover:bg-violet-500
+                  disabled:opacity-50
                 "
               >
-                Save Changes
+                {isSaving ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </div>
         </div>
       )}
-      {showPasswordModal && (
-        <div
-          className="
-            fixed
-            inset-0
-            z-[9999]
-            flex
-            items-center
-            justify-center
-            bg-black/70
-            p-4
-          "
-        >
-          <div
-            className="
-              w-full
-              max-w-lg
-              rounded-3xl
-              border
-              border-zinc-800
-              bg-[#111111]
-              p-6
-            "
-          >
-            <h2 className="text-xl font-semibold">
-              Change Password
-            </h2>
 
-            <p className="mt-2 text-zinc-400">
-              Choose a strong password to keep
-              your account secure.
-            </p>
-
-            <div className="mt-6 space-y-4">
-
-              <div>
-                <label className="mb-2 block text-sm text-zinc-400">
-                  Current Password
-                </label>
-
-                <input
-                  type="password"
-                  value={
-                    passwordData.currentPassword
-                  }
-                  onChange={(e) =>
-                    setPasswordData({
-                      ...passwordData,
-                      currentPassword:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-zinc-800
-                    bg-zinc-950
-                    px-4
-                    py-3
-                    outline-none
-                    focus:border-violet-500
-                  "
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm text-zinc-400">
-                  New Password
-                </label>
-
-                <input
-                  type="password"
-                  value={passwordData.newPassword}
-                  onChange={(e) =>
-                    setPasswordData({
-                      ...passwordData,
-                      newPassword:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-zinc-800
-                    bg-zinc-950
-                    px-4
-                    py-3
-                    outline-none
-                    focus:border-violet-500
-                  "
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm text-zinc-400">
-                  Confirm Password
-                </label>
-
-                <input
-                  type="password"
-                  value={
-                    passwordData.confirmPassword
-                  }
-                  onChange={(e) =>
-                    setPasswordData({
-                      ...passwordData,
-                      confirmPassword:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    rounded-xl
-                    border
-                    border-zinc-800
-                    bg-zinc-950
-                    px-4
-                    py-3
-                    outline-none
-                    focus:border-violet-500
-                  "
-                />
-              </div>
-            </div>
-
-            <div className="mt-6 flex justify-end gap-3">
-              <button
-                onClick={() => {
-                  setShowPasswordModal(false);
-
-                  setPasswordData({
-                    currentPassword: "",
-                    newPassword: "",
-                    confirmPassword: "",
-                  });
-                }}
-                className="
-                  rounded-xl
-                  border
-                  border-zinc-800
-                  px-4
-                  py-2
-                "
-              >
-                Cancel
-              </button>
-
-              <button
-                onClick={handlePasswordChange}
-                className="
-                  rounded-xl
-                  bg-violet-600
-                  px-4
-                  py-2
-                  hover:bg-violet-500
-                "
-              >
-                Update Password
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
