@@ -1,12 +1,20 @@
 import Navbar from "../components/NavBar.jsx";
 import FeatureCard from "../components/FeatureCard.jsx";
 import { useNavigate } from "react-router-dom";
-
-
+import { useLogto } from "@logto/react";
 
 export default function LandingPage() {
-  
   const navigate = useNavigate();
+  const { isAuthenticated, signIn } = useLogto();
+
+  const handleBuildClick = () => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    } else {
+      signIn(`${window.location.origin}/callback`);
+    }
+  };
+
   return (
     <div className="h-screen bg-[#0A0A0A] flex flex-col">
       <Navbar />
@@ -85,7 +93,7 @@ export default function LandingPage() {
             <FeatureCard
               title="Build Your House"
               description="Generate floor plans, layouts and optimized residential designs tailored to your requirements."
-              onClick={() => navigate("/dashboard")}
+              onClick={handleBuildClick}
             />
           </div>
         </section>
