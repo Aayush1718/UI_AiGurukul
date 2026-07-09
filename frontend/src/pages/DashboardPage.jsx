@@ -32,8 +32,8 @@ export default function DashboardPage() {
         name: "Personal",
       },
       {
-        id: "clients",
-        name: "Client Projects",
+        id: "Owners",
+        name: "Owner Projects",
       },
       {
         id: "testing",
@@ -47,7 +47,7 @@ export default function DashboardPage() {
         id: 1,
         workspace: "personal",
         name: "Modern Villa",
-        role: "Client",
+        role: "Owner",
         updated: "today",
       },
       {
@@ -59,8 +59,8 @@ export default function DashboardPage() {
       },
       {
         id: 3,
-        workspace: "clients",
-        name: "Client Villa A",
+        workspace: "Owners",
+        name: "Owner Villa A",
         role: "Architect",
         updated: "yesterday",
       },

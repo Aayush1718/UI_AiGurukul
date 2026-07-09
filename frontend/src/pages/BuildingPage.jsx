@@ -2,11 +2,15 @@ import { useState } from "react";
 import BuildingSidebar from "../components/BuildingSidebar.jsx";
 import PlannerChat from "../components/PlannerChat.jsx";
 import PlotDesigner from "../components/PlotDesigner.jsx";
+import DrawingToolbar from "../components/DrawingToolbar.jsx";
 
 export default function BuildingPage() {
   const [mobileTab, setMobileTab] = useState("plot");
   const [showSidebar, setShowSidebar] = useState(false);
-
+  const [activeSection, setActiveSection] =
+    useState("Drawings");
+  const [selectedView, setSelectedView] =
+    useState("Site Plan");
   return (
     <div className="h-screen bg-[#0A0A0A] text-white overflow-hidden">
 
@@ -19,10 +23,23 @@ export default function BuildingPage() {
             </h1>
           </div>
 
-          <BuildingSidebar />
+          <BuildingSidebar
+            activeSection={activeSection}
+            onSelect={setActiveSection}
+          />
         </div>
 
-        <PlotDesigner />
+        <div className="flex-1 flex flex-col min-h-0">
+          <DrawingToolbar
+            selectedView={selectedView}
+            setSelectedView={setSelectedView}
+          />
+
+          <PlotDesigner
+            selectedView={selectedView}
+          />
+        </div>
+
         <PlannerChat />
       </div>
 
@@ -67,7 +84,16 @@ export default function BuildingPage() {
         {/* Content */}
         <div className="flex-1 min-h-0 flex">
           {mobileTab === "plot" ? (
-            <PlotDesigner />
+            <div className="flex-1 flex flex-col min-h-0">
+              <DrawingToolbar
+                selectedView={selectedView}
+                setSelectedView={setSelectedView}
+              />
+
+              <PlotDesigner
+                selectedView={selectedView}
+              />
+            </div>
           ) : (
             <PlannerChat />
           )}
@@ -91,7 +117,10 @@ export default function BuildingPage() {
               "
               onClick={(e) => e.stopPropagation()}
             >
-              <BuildingSidebar />
+              <BuildingSidebar
+                activeSection={activeSection}
+                onSelect={setActiveSection}
+              />
             </div>
           </div>
         )}

@@ -5,7 +5,7 @@ export default function CreateProjectModal({
   onClose,
   onCreate,
 })  {
-  const [role, setRole] = useState("Client");
+  const [role, setRole] = useState("Owner");
 
   const [projectName, setProjectName] =
     useState("");
@@ -17,7 +17,7 @@ export default function CreateProjectModal({
 
   const roles = [
     {
-      title: "Client",
+      title: "Owner",
       description: "Owns project",
     },
     {
@@ -41,7 +41,7 @@ export default function CreateProjectModal({
 
     setProjectName("");
     setLocation("");
-    setRole("Client");
+    setRole("Owner");
   };
 
   return (
