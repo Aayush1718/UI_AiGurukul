@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogto } from "@logto/react";
 import { supabase } from "../lib/supabaseClient";
@@ -6,7 +6,10 @@ import Button from "../components/Button.jsx";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { signOut, getIdTokenClaims } = useLogto();
+  const { signOut, getIdTokenClaims, getIdToken } = useLogto();
+
+  const tokenRef = useRef(null);
+  const hasFetched = useRef(false);
 
   const [showDeleteModal, setShowDeleteModal] =
     useState(false);
@@ -19,24 +22,36 @@ export default function ProfilePage() {
       name: "",
       email: "",
       userId: "",
+      phoneNumber: "",
+      location: "",
     });
 
   useEffect(() => {
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
     const fetchProfile = async () => {
       try {
         const claims = await getIdTokenClaims();
         if (claims?.sub) {
-          const { data } = await supabase
-            .from("users")
-            .select("name, email")
-            .eq("user_id", claims.sub)
-            .single();
-          if (data) {
-            setProfileData({
-              name: data.name || "",
-              email: data.email || claims.email || "",
-              userId: claims.sub,
+          const token = await getIdToken();
+          if (token) {
+            tokenRef.current = token;
+            const res = await fetch("/api/profile", {
+              headers: { Authorization: `Bearer ${token}` }
             });
+            if (res.ok) {
+              const data = await res.json();
+              if (data) {
+                setProfileData({
+                  name: data.name || "",
+                  email: data.email || claims.email || "",
+                  phoneNumber: data.phone_number || "",
+                  location: data.location || "",
+                  userId: claims.sub,
+                });
+              }
+            }
           }
         }
       } catch (err) {
@@ -45,7 +60,8 @@ export default function ProfilePage() {
     };
 
     fetchProfile();
-  }, [getIdTokenClaims]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const initials = profileData.name
     ? profileData.name
@@ -81,12 +97,29 @@ export default function ProfilePage() {
 
   const handleSaveProfile = async () => {
     if (!profileData.userId) return;
+    const token = tokenRef.current;
+    if (!token) {
+      console.error("No cached token available");
+      return;
+    }
     try {
       setIsSaving(true);
-      await supabase
-        .from("users")
-        .update({ name: profileData.name })
-        .eq("user_id", profileData.userId);
+
+      const res = await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: profileData.name,
+          phone_number: profileData.phoneNumber,
+          location: profileData.location,
+          email: profileData.email
+        })
+      });
+
+      if (!res.ok) throw new Error("Update failed");
       setShowEditModal(false);
     } catch (err) {
       console.error("Failed to update profile", err);
@@ -469,10 +502,61 @@ export default function ProfilePage() {
 
                 <input
                   value={profileData.email}
+                  readOnly
+                  disabled
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-zinc-800
+                    bg-zinc-900/50
+                    text-zinc-500
+                    px-4
+                    py-3
+                    outline-none
+                    cursor-not-allowed
+                  "
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-zinc-400">
+                  Phone Number
+                </label>
+
+                <input
+                  value={profileData.phoneNumber}
                   onChange={(e) =>
                     setProfileData({
                       ...profileData,
-                      email: e.target.value,
+                      phoneNumber: e.target.value,
+                    })
+                  }
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-zinc-800
+                    bg-zinc-950
+                    px-4
+                    py-3
+                    outline-none
+                    focus:border-violet-500
+                  "
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-zinc-400">
+                  Location
+                </label>
+
+                <input
+                  value={profileData.location}
+                  onChange={(e) =>
+                    setProfileData({
+                      ...profileData,
+                      location: e.target.value,
                     })
                   }
                   className="
