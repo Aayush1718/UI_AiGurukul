@@ -1,7 +1,17 @@
 import { useState } from "react";
 
-export default function CreateProjectModal({ open, onClose }) {
+export default function CreateProjectModal({
+  open,
+  onClose,
+  onCreate,
+})  {
   const [role, setRole] = useState("Client");
+
+  const [projectName, setProjectName] =
+    useState("");
+
+  const [location, setLocation] =
+    useState("");
 
   if (!open) return null;
 
@@ -19,6 +29,20 @@ export default function CreateProjectModal({ open, onClose }) {
       description: "Reviews Compliance",
     },
   ];
+
+  const handleCreate = () => {
+    if (!projectName.trim()) return;
+
+    onCreate({
+      name: projectName,
+      role,
+      location,
+    });
+
+    setProjectName("");
+    setLocation("");
+    setRole("Client");
+  };
 
   return (
     <div
@@ -59,6 +83,10 @@ export default function CreateProjectModal({ open, onClose }) {
             </label>
 
             <input
+                value={projectName}
+                onChange={(e) =>
+                  setProjectName(e.target.value)
+                }
               placeholder="Modern Villa"
               className="
                 w-full
@@ -81,6 +109,10 @@ export default function CreateProjectModal({ open, onClose }) {
             </label>
 
             <input
+              value={location}
+              onChange={(e) =>
+                setLocation(e.target.value)
+              }
               placeholder="Location"
               className="
                 w-full
@@ -149,6 +181,8 @@ export default function CreateProjectModal({ open, onClose }) {
           </button>
 
           <button
+            onClick={handleCreate}
+            disabled={!projectName.trim()}
             className="
               rounded-xl
               bg-white

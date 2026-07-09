@@ -31,7 +31,7 @@ export default function CallbackPage() {
           .from("users")
           .update({ last_login: new Date().toISOString() })
           .eq("user_id", userId);
-        navigate("/dashboard", { replace: true });
+        navigate("/", { replace: true });
       } else {
         // New user — needs to complete profile
         navigate("/complete-profile", {
