@@ -1,15 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogto } from "@logto/react";
 import { supabase } from "../lib/supabaseClient";
 import Button from "../components/Button.jsx";
+import { useUser } from "../context/UserContext";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { signOut, getIdTokenClaims, getIdToken } = useLogto();
-
-  const tokenRef = useRef(null);
-  const hasFetched = useRef(false);
+  const { signOut } = useLogto();
+  const { userName, userEmail, userId, phoneNumber, location, token, isProfileLoaded, refreshProfile } = useUser();
 
   const [showDeleteModal, setShowDeleteModal] =
     useState(false);
@@ -26,42 +25,18 @@ export default function ProfilePage() {
       location: "",
     });
 
+  // Sync from context once loaded
   useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
-
-    const fetchProfile = async () => {
-      try {
-        const claims = await getIdTokenClaims();
-        if (claims?.sub) {
-          const token = await getIdToken();
-          if (token) {
-            tokenRef.current = token;
-            const res = await fetch("/api/profile", {
-              headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-              const data = await res.json();
-              if (data) {
-                setProfileData({
-                  name: data.name || "",
-                  email: data.email || claims.email || "",
-                  phoneNumber: data.phone_number || "",
-                  location: data.location || "",
-                  userId: claims.sub,
-                });
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch profile:", err);
-      }
-    };
-
-    fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (isProfileLoaded) {
+      setProfileData({
+        name: userName,
+        email: userEmail,
+        userId: userId,
+        phoneNumber: phoneNumber,
+        location: location,
+      });
+    }
+  }, [isProfileLoaded, userName, userEmail, userId, phoneNumber, location]);
 
   const initials = profileData.name
     ? profileData.name
@@ -97,7 +72,6 @@ export default function ProfilePage() {
 
   const handleSaveProfile = async () => {
     if (!profileData.userId) return;
-    const token = tokenRef.current;
     if (!token) {
       console.error("No cached token available");
       return;
@@ -120,6 +94,7 @@ export default function ProfilePage() {
       });
 
       if (!res.ok) throw new Error("Update failed");
+      await refreshProfile();
       setShowEditModal(false);
     } catch (err) {
       console.error("Failed to update profile", err);

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useLogto } from "@logto/react";
+import { useUser } from "../context/UserContext";
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
   const locationState = useLocation();
   const { userId, email, existingUser } = locationState.state || {};
-  const { getIdToken } = useLogto();
+  const { token, refreshProfile } = useUser();
 
   const [name, setName] = useState(existingUser?.name || "");
   const [phoneNumber, setPhoneNumber] = useState(existingUser?.phone_number || "");
@@ -35,7 +35,6 @@ export default function CompleteProfilePage() {
 
     setSaving(true);
     try {
-      const token = await getIdToken();
       if (!token) throw new Error("No token");
 
       const response = await fetch("/api/profile", {
@@ -57,6 +56,7 @@ export default function CompleteProfilePage() {
         throw new Error(errData.error || "Failed to update profile");
       }
 
+      await refreshProfile();
       navigate("/dashboard", { replace: true });
     } catch (err) {
       console.error("Profile save error:", err);

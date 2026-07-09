@@ -1,44 +1,13 @@
 import { useLogto } from "@logto/react";
-import { useEffect, useState, useRef } from "react";
-import { supabase } from "../lib/supabaseClient";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 
 export default function DashboardNavbar() {
   const navigate = useNavigate();
-  const { signOut, getIdTokenClaims, getIdToken } = useLogto();
-  const [userName, setUserName] = useState("");
+  const { signOut } = useLogto();
+  const { userName } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const hasFetched = useRef(false);
-
-  useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
-
-    const fetchName = async () => {
-      try {
-        const claims = await getIdTokenClaims();
-        if (claims?.sub) {
-          const token = await getIdToken();
-          if (token) {
-            const res = await fetch("/api/profile", {
-              headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-              const data = await res.json();
-              if (data?.name) {
-                setUserName(data.name);
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch user name:", err);
-      }
-    };
-
-    fetchName();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const initials = userName
     ? userName
