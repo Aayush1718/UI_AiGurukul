@@ -13,6 +13,26 @@ export default function CreateProjectModal({
   const [location, setLocation] =
     useState("");
 
+  const [projectType, setProjectType] =
+    useState("Feasibility Analysis");
+
+  if (!open) return null;
+
+  const projectTypes = [
+    {
+      title: "Feasibility Analysis",
+      description: "Analyze feasibility",
+    },
+    {
+      title: "Site Plan",
+      description: "Plan your site",
+    },
+    {
+      title: "Full Layout",
+      description: "Generate layout",
+    },
+  ];
+
   if (!open) return null;
 
   const roles = [
@@ -31,17 +51,19 @@ export default function CreateProjectModal({
   ];
 
   const handleCreate = () => {
-    if (!projectName.trim()) return;
+    const finalName = projectName.trim() || "Untitled Project";
 
     onCreate({
-      name: projectName,
+      name: finalName,
       role,
       location,
+      projectType,
     });
 
     setProjectName("");
     setLocation("");
     setRole("Owner");
+    setProjectType("Feasibility Analysis");
   };
 
   return (
@@ -132,6 +154,42 @@ export default function CreateProjectModal({
 
         <div className="mt-6">
           <label className="mb-3 block text-sm text-zinc-400">
+            Project Type
+          </label>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {projectTypes.map((item) => (
+              <button
+                key={item.title}
+                onClick={() => setProjectType(item.title)}
+                className={`
+                  rounded-2xl
+                  border
+                  p-4
+                  text-left
+                  transition
+
+                  ${
+                    projectType === item.title
+                      ? "border-white bg-zinc-900"
+                      : "border-zinc-800 hover:border-zinc-600"
+                  }
+                `}
+              >
+                <h4 className="font-medium text-white">
+                  {item.title}
+                </h4>
+
+                <p className="mt-1 text-xs text-zinc-500">
+                  {item.description}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <label className="mb-3 block text-sm text-zinc-400">
             Choose Role
           </label>
 
@@ -182,7 +240,6 @@ export default function CreateProjectModal({
 
           <button
             onClick={handleCreate}
-            disabled={!projectName.trim()}
             className="
               rounded-xl
               bg-white

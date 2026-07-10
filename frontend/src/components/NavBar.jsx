@@ -15,21 +15,25 @@ export default function Navbar() {
 
   return (
     <header className="border-b border-zinc-900">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-        <div>
-          <h1 className="text-lg font-semibold">
-            HouseAI
-          </h1>
-        </div>
+      <div className="flex h-16 w-full items-center justify-between px-4 md:px-6">
+        <h1 className="text-xl font-bold tracking-tight text-white">
+          HouseAI
+        </h1>
 
-        <div className="flex items-center gap-3">
-          <Button onClick={handleSignIn}>
-            Sign In
-          </Button>
+        <div className="flex items-center gap-6">
+          <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Team</a>
+          <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Blog</a>
+          <div className="hidden md:block h-4 w-px bg-zinc-800" />
+          
+          <div className="flex items-center gap-3">
+            <Button onClick={handleSignIn}>
+              Sign In
+            </Button>
 
-          <Button onClick={handleSignIn}>
-            Sign Up
-          </Button>
+            <Button onClick={handleSignIn}>
+              Sign Up
+            </Button>
+          </div>
         </div>
       </div>
     </header>

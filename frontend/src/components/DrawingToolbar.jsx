@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 
 const stages = [
   "Requirements",
@@ -15,12 +15,19 @@ const stages = [
 export default function DrawingToolbar({
   selectedView,
   setSelectedView,
+  projectType = "Full Layout",
+  onToggleSidebar,
 }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  const availableStages =
+    projectType === "Site Plan"
+      ? ["Site Plan"]
+      : stages;
+
   const currentIndex =
-    stages.indexOf(selectedView);
+    availableStages.indexOf(selectedView);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -57,7 +64,7 @@ export default function DrawingToolbar({
   };
 
   return (
-    <div className="border-b border-zinc-900 px-4 md:px-6 py-4">
+    <div className="border-b border-zinc-900 px-4 md:px-6 py-4 flex items-center gap-4">
       <div
         ref={dropdownRef}
         className="relative"
@@ -120,7 +127,7 @@ export default function DrawingToolbar({
             "
           >
             <div className="p-2">
-              {stages.map(
+              {availableStages.map(
                 (stage, index) => {
                   const status =
                     getStatus(index);

@@ -107,6 +107,61 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-900 py-8 text-sm text-zinc-400 bg-[#050505]">
+        <div className="w-full px-4 md:px-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-4 lg:gap-8 mb-8">
+            <div className="col-span-1 md:col-span-1">
+              <h2 className="text-xl font-bold tracking-tight text-white mb-4">
+                HouseAI
+              </h2>
+              <p className="text-zinc-500 leading-relaxed pr-4">
+                AI-powered feasibility analysis and intelligent residential
+                design for modern construction projects.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-zinc-200 font-semibold mb-4">Product</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="hover:text-white transition">Features</a></li>
+                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition">Case Studies</a></li>
+                <li><a href="#" className="hover:text-white transition">Updates</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-zinc-200 font-semibold mb-4">Company</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="hover:text-white transition">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition">Team</a></li>
+                <li><a href="#" className="hover:text-white transition">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition">Blog</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-zinc-200 font-semibold mb-4">Legal</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="pt-6 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>© {new Date().getFullYear()} HouseAI. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-white transition">Twitter</a>
+              <a href="#" className="hover:text-white transition">LinkedIn</a>
+              <a href="#" className="hover:text-white transition">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

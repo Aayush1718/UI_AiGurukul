@@ -12,17 +12,9 @@ import FeasibilityAnalysisPage from "../pages/FeasibilityAnalysisPage.jsx";
 export default function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<DashboardPage />} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route path="/complete-profile" element={<CompleteProfilePage />} />
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
       <Route
         path="/profile"
         element={

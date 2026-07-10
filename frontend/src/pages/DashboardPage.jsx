@@ -4,6 +4,9 @@ import ProjectCard from "../components/ProjectCard.jsx";
 import CreateProjectModal from "../components/CreateProjectModal.jsx";
 import CollaboratorsModal from "../components/CollaboratorsModal.jsx";
 import { useNavigate } from "react-router-dom";
+import { useLogto } from "@logto/react";
+import { User, LogOut, ChevronUp } from "lucide-react";
+import { useUser } from "../context/UserContext";
 
 export default function DashboardPage() {
   const [createOpen, setCreateOpen] = useState(false);
@@ -24,6 +27,32 @@ export default function DashboardPage() {
     useState("");
 
   const navigate = useNavigate();
+  const { isAuthenticated, signIn } = useLogto();
+
+  const handleCreateProjectClick = () => {
+    if (isAuthenticated) {
+      setCreateOpen(true);
+    } else {
+      signIn(`${window.location.origin}/callback`);
+    }
+  };
+
+  const { userName } = useUser();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { signOut } = useLogto();
+
+  const initials = userName
+    ? userName
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "?";
+
+  const handleSignOut = () => {
+    signOut(`${window.location.origin}/`);
+  };
 
   const [workspaces, setWorkspaces] =
     useState([
@@ -103,6 +132,7 @@ export default function DashboardPage() {
   const createProject = ({
     name,
     role,
+    projectType,
   }) => {
     const project = {
       id: crypto.randomUUID(),
@@ -123,6 +153,17 @@ export default function DashboardPage() {
     ]);
 
     setCreateOpen(false);
+
+    if (projectType === "Feasibility Analysis") {
+      navigate("/feasibility");
+    } else {
+      navigate(`/project/${project.id}`, { 
+        state: { 
+          projectType, 
+          projectName: project.name 
+        } 
+      });
+    }
   };
 
   return (
@@ -140,11 +181,14 @@ export default function DashboardPage() {
               lg:w-64
               shrink-0
               flex-col
+              justify-between
               border-r
               border-zinc-900
               pr-6
+              min-h-[calc(100vh-8rem)]
             "
           >
+            <div>
             <div className="mb-6">
               <h2
                 className="
@@ -224,6 +268,85 @@ export default function DashboardPage() {
             >
               New Workspace
             </button>
+            </div>
+
+            {/* Profile Section at Bottom */}
+            {isAuthenticated && (
+              <div className="relative mt-8 shrink-0">
+                {/* Pop-up Menu */}
+                {dropdownOpen && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setDropdownOpen(false)}
+                    />
+                    <div
+                      className="
+                        absolute bottom-full left-0 mb-2 z-50
+                        w-full rounded-xl
+                        border border-zinc-800 bg-zinc-950
+                        p-1 shadow-xl shadow-black/40
+                      "
+                    >
+                      <button
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          navigate("/profile");
+                        }}
+                        className="
+                          w-full flex items-center gap-3
+                          rounded-lg px-3 py-2.5
+                          text-sm text-zinc-300
+                          transition hover:bg-zinc-900 hover:text-white
+                        "
+                      >
+                        <User size={16} />
+                        Profile
+                      </button>
+                      <button
+                        onClick={handleSignOut}
+                        className="
+                          mt-1 w-full flex items-center gap-3
+                          rounded-lg px-3 py-2.5
+                          text-sm text-zinc-300
+                          transition hover:bg-zinc-900 hover:text-white
+                        "
+                      >
+                        <LogOut size={16} />
+                        Log out
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {/* Profile Button */}
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="
+                    flex w-full items-center justify-between
+                    rounded-xl p-2 -ml-2
+                    transition hover:bg-zinc-900
+                  "
+                >
+                  <div className="flex items-center gap-3 truncate">
+                    <div
+                      className="
+                        flex h-8 w-8 shrink-0 items-center justify-center
+                        rounded-full bg-zinc-800
+                        text-xs font-medium text-white
+                      "
+                      title={userName}
+                    >
+                      {initials}
+                    </div>
+                    <span className="truncate text-sm font-medium text-zinc-300">
+                      {userName || "User"}
+                    </span>
+                  </div>
+                  <ChevronUp size={16} className="text-zinc-500 shrink-0" />
+                </button>
+              </div>
+            )}
           </aside>
 
           {/* Main Content */}
@@ -376,9 +499,7 @@ export default function DashboardPage() {
               </div>
 
               <button
-                onClick={() =>
-                  setCreateOpen(true)
-                }
+                onClick={handleCreateProjectClick}
                 className="
                   w-full
                   sm:w-auto
@@ -417,9 +538,7 @@ export default function DashboardPage() {
                 </p>
 
                 <button
-                  onClick={() =>
-                    setCreateOpen(true)
-                  }
+                  onClick={handleCreateProjectClick}
                   className="
                     mt-6
                     rounded-xl
@@ -470,6 +589,62 @@ export default function DashboardPage() {
           </section>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-900 py-8 text-sm text-zinc-400 bg-[#050505]">
+        <div className="w-full px-4 md:px-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-4 lg:gap-8 mb-8">
+            <div className="col-span-1 md:col-span-1">
+              <h2 className="text-xl font-bold tracking-tight text-white mb-4">
+                HouseAI
+              </h2>
+              <p className="text-zinc-500 leading-relaxed pr-4">
+                AI-powered feasibility analysis and intelligent residential
+                design for modern construction projects.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-zinc-200 font-semibold mb-4">Product</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="hover:text-white transition">Features</a></li>
+                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition">Case Studies</a></li>
+                <li><a href="#" className="hover:text-white transition">Updates</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-zinc-200 font-semibold mb-4">Company</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="hover:text-white transition">About Us</a></li>
+                <li><a href="#" className="hover:text-white transition">Team</a></li>
+                <li><a href="#" className="hover:text-white transition">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition">Blog</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-zinc-200 font-semibold mb-4">Legal</h3>
+              <ul className="space-y-3">
+                <li><a href="#" className="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-white transition">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-white transition">Cookie Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="pt-6 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>© {new Date().getFullYear()} HouseAI. All rights reserved.</p>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-white transition">Twitter</a>
+              <a href="#" className="hover:text-white transition">LinkedIn</a>
+              <a href="#" className="hover:text-white transition">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
       {workspaceModalOpen && (
         <div
           className="

@@ -1,46 +1,78 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Menu } from "lucide-react";
 import BuildingSidebar from "../components/BuildingSidebar.jsx";
 import PlannerChat from "../components/PlannerChat.jsx";
 import PlotDesigner from "../components/PlotDesigner.jsx";
 import DrawingToolbar from "../components/DrawingToolbar.jsx";
+import LibraryView from "../components/LibraryView.jsx";
+import ArtifactsView from "../components/ArtifactsView.jsx";
 
 export default function BuildingPage() {
+  const location = useLocation();
+  const projectName = location.state?.projectName || "Modern Villa";
+  const projectType = location.state?.projectType || "Full Layout";
+
   const [mobileTab, setMobileTab] = useState("plot");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [activeSection, setActiveSection] =
-    useState("Drawings");
+  const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
+  const [activeSection, setActiveSection] = useState("Chat");
   const [selectedView, setSelectedView] =
     useState("Site Plan");
+
   return (
     <div className="h-screen bg-[#0A0A0A] text-white overflow-hidden">
 
       {/* Desktop */}
       <div className="hidden lg:flex h-full min-h-0">
-        <div className="w-64 shrink-0 flex flex-col border-r border-zinc-900">
-          <div className="border-b border-zinc-900 px-6 py-5">
-            <h1 className="text-2xl font-semibold">
-              Modern Villa
+        <div
+          className={`shrink-0 flex flex-col border-r border-zinc-900 transition-all duration-300 overflow-hidden ${
+            desktopSidebarOpen ? "w-64" : "w-[4.5rem]"
+          }`}
+        >
+          <div className="border-b border-zinc-900 px-4 py-5 flex items-center justify-between min-w-[4.5rem]">
+            <h1 className={`text-xl font-semibold transition-all duration-300 truncate ${desktopSidebarOpen ? 'opacity-100' : 'opacity-0 w-0 hidden'}`}>
+              {projectName}
             </h1>
+            <button 
+              onClick={() => setDesktopSidebarOpen(!desktopSidebarOpen)}
+              className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition shrink-0 mx-auto"
+            >
+              <Menu size={20} />
+            </button>
           </div>
 
           <BuildingSidebar
             activeSection={activeSection}
             onSelect={setActiveSection}
+            isExpanded={desktopSidebarOpen}
           />
         </div>
 
-        <div className="flex-1 flex flex-col min-h-0">
-          <DrawingToolbar
-            selectedView={selectedView}
-            setSelectedView={setSelectedView}
-          />
+        {activeSection === "Library" && (
+          <div className="flex-1 flex flex-col min-w-0 min-h-0 bg-[#0A0A0A]">
+            <LibraryView />
+          </div>
+        )}
 
-          <PlotDesigner
-            selectedView={selectedView}
-          />
-        </div>
+        {activeSection === "Artifacts" && (
+          <div className="flex-1 flex flex-col min-w-0 min-h-0 bg-[#0A0A0A]">
+            <ArtifactsView />
+          </div>
+        )}
 
-        <PlannerChat />
+        {activeSection === "Chat" && (
+          <div className="flex-1 flex flex-col min-w-0 min-h-0 bg-[#0A0A0A]">
+            <DrawingToolbar
+              selectedView={selectedView}
+              setSelectedView={setSelectedView}
+              projectType={projectType}
+            />
+            <PlotDesigner selectedView={selectedView} />
+          </div>
+        )}
+
+        {activeSection === "Chat" && <PlannerChat projectType={projectType} />}
       </div>
 
       {/* Mobile */}
@@ -52,50 +84,57 @@ export default function BuildingPage() {
             onClick={() => setShowSidebar(true)}
             className="flex items-center gap-2 text-lg font-semibold"
           >
-            Modern Villa ▼
+            {projectName} ▼
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-zinc-900">
-          <button
-            onClick={() => setMobileTab("plot")}
-            className={`flex-1 py-3 text-sm ${
-              mobileTab === "plot"
-                ? "border-b-2 border-violet-500"
-                : ""
-            }`}
-          >
-            Site Plan
-          </button>
+        {activeSection === "Chat" && (
+          <div className="flex border-b border-zinc-900">
+            <button
+              onClick={() => setMobileTab("plot")}
+              className={`flex-1 py-3 text-sm ${
+                mobileTab === "plot"
+                  ? "border-b-2 border-violet-500"
+                  : ""
+              }`}
+            >
+              Site Plan
+            </button>
 
-          <button
-            onClick={() => setMobileTab("planner")}
-            className={`flex-1 py-3 text-sm ${
-              mobileTab === "planner"
-                ? "border-b-2 border-violet-500"
-                : ""
-            }`}
-          >
-            Planner
-          </button>
-        </div>
+            <button
+              onClick={() => setMobileTab("planner")}
+              className={`flex-1 py-3 text-sm ${
+                mobileTab === "planner"
+                  ? "border-b-2 border-violet-500"
+                  : ""
+              }`}
+            >
+              Planner
+            </button>
+          </div>
+        )}
 
         {/* Content */}
-        <div className="flex-1 min-h-0 flex">
-          {mobileTab === "plot" ? (
-            <div className="flex-1 flex flex-col min-h-0">
-              <DrawingToolbar
-                selectedView={selectedView}
-                setSelectedView={setSelectedView}
-              />
+        <div className="flex-1 min-h-0 flex w-full">
+          {activeSection === "Library" && <LibraryView />}
+          {activeSection === "Artifacts" && <ArtifactsView />}
+          {activeSection === "Chat" && (
+            mobileTab === "plot" ? (
+              <div className="flex-1 flex flex-col min-h-0 w-full">
+                <DrawingToolbar
+                  selectedView={selectedView}
+                  setSelectedView={setSelectedView}
+                  projectType={projectType}
+                />
 
-              <PlotDesigner
-                selectedView={selectedView}
-              />
-            </div>
-          ) : (
-            <PlannerChat />
+                <PlotDesigner
+                  selectedView={selectedView}
+                />
+              </div>
+            ) : (
+              <PlannerChat projectType={projectType} />
+            )
           )}
         </div>
 

@@ -275,6 +275,8 @@ export default function ProfilePage() {
                 w-full
                 items-center
                 justify-between
+                border-b
+                border-zinc-800
                 px-6
                 py-6
                 hover:bg-zinc-800/50
@@ -295,24 +297,36 @@ export default function ProfilePage() {
                 →
               </span>
             </button>
-          </div>
-        </div>
 
-        {/* Delete Account */}
-        <div className="mt-10">
-          <button
-            onClick={() =>
-              setShowDeleteModal(true)
-            }
-            className="
-              text-sm
-              text-red-400
-              hover:text-red-300
-              transition
-            "
-          >
-            Delete Account
-          </button>
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="
+                flex
+                w-full
+                items-center
+                justify-between
+                px-6
+                py-6
+                hover:bg-red-950/20
+                transition
+                text-red-500
+              "
+            >
+              <div className="text-left">
+                <p className="font-medium">
+                  Delete Account
+                </p>
+
+                <p className="text-sm text-red-500/70">
+                  Permanently delete your account and all data
+                </p>
+              </div>
+
+              <span className="text-red-500/50">
+                →
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 

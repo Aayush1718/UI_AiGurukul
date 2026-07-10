@@ -1,4 +1,6 @@
-export default function PlannerChat() {
+export default function PlannerChat({ projectType = "Full Layout" }) {
+  const agentName = projectType === "Site Plan" ? "Site Plan Agent" : "Planner Agent";
+
   return (
     <div
       className="
@@ -17,19 +19,9 @@ export default function PlannerChat() {
       "
     >
       <div className="hidden md:block border-b border-zinc-900 p-4">
-        {/* <h2 className="font-semibold">
-          Planner Agent
-        </h2> */}
-
-        <div className=" mt-4 flex min-w-0 gap-3">
-          <button className="shrink-0 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm hover:border-zinc-600">            
-            Upload DXF
-          </button>
-
-          <button className="shrink-0 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm hover:border-zinc-600">            
-            Upload CAD
-          </button>
-        </div>
+        <h2 className="font-semibold text-white">
+          {agentName}
+        </h2>
       </div>
 
       <div
