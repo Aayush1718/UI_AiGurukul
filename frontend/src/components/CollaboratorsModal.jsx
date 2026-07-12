@@ -55,8 +55,8 @@ export default function CollaboratorsModal({
           h-[85vh]
           rounded-3xl
           border
-          border-zinc-800
-          bg-zinc-950
+          border-border
+          bg-card
           shadow-2xl
           overflow-hidden
         "
@@ -72,11 +72,11 @@ export default function CollaboratorsModal({
           {/* Header */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="text-2xl font-semibold text-foreground">
                 Project Team
               </h2>
 
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Manage collaborators and invitations.
               </p>
             </div>
@@ -84,9 +84,9 @@ export default function CollaboratorsModal({
             <button
               onClick={onClose}
               className="
-                text-zinc-500
+                text-muted-foreground
                 transition
-                hover:text-white
+                hover:text-foreground
               "
             >
               ✕
@@ -100,7 +100,7 @@ export default function CollaboratorsModal({
             "
           >
           {/* Tabs */}
-          <div className="mt-6 flex gap-2 rounded-2xl bg-zinc-900 p-1">
+          <div className="mt-6 flex gap-2 rounded-2xl bg-muted p-1">
             <button
               onClick={() =>
                 setActiveTab("collaborators")
@@ -114,8 +114,8 @@ export default function CollaboratorsModal({
 
                 ${
                   activeTab === "collaborators"
-                    ? "bg-zinc-800 text-white"
-                    : "text-zinc-500"
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground"
                 }
               `}
             >
@@ -135,8 +135,8 @@ export default function CollaboratorsModal({
 
                 ${
                   activeTab === "invitations"
-                    ? "bg-zinc-800 text-white"
-                    : "text-zinc-500"
+                    ? "bg-muted text-foreground"
+                    : "text-muted-foreground"
                 }
               `}
             >
@@ -155,8 +155,8 @@ export default function CollaboratorsModal({
                     flex items-center justify-between
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-900
+                    border-border
+                    bg-muted
                     px-4
                     py-3
                   "
@@ -167,17 +167,17 @@ export default function CollaboratorsModal({
                         flex h-10 w-10
                         items-center justify-center
                         rounded-full
-                        bg-zinc-800
+                        bg-muted
                         text-sm
                         font-medium
-                        text-white
+                        text-foreground
                       "
                     >
                       {member.username[0].toUpperCase()}
                     </div>
 
                     <div>
-                      <p className="text-white">
+                      <p className="text-foreground">
                         @{member.username}
                       </p>
                     </div>
@@ -192,7 +192,7 @@ export default function CollaboratorsModal({
                         px-3
                         py-1
                         text-xs
-                        text-zinc-300
+                        text-foreground
                       "
                     >
                       {member.role}
@@ -202,7 +202,7 @@ export default function CollaboratorsModal({
                       <button
                         className="
                           text-sm
-                          text-zinc-500
+                          text-muted-foreground
                           opacity-0
                           transition
                           group-hover:opacity-100
@@ -222,7 +222,7 @@ export default function CollaboratorsModal({
           {activeTab === "invitations" && (
             <div className="mt-6">
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Username
                 </label>
 
@@ -232,11 +232,11 @@ export default function CollaboratorsModal({
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-900
+                    border-border
+                    bg-muted
                     px-4
                     py-3
-                    text-white
+                    text-foreground
                     outline-none
                     focus:border-zinc-600
                   "
@@ -244,7 +244,7 @@ export default function CollaboratorsModal({
               </div>
 
               <div className="mt-5">
-                <label className="mb-3 block text-sm text-zinc-400">
+                <label className="mb-3 block text-sm text-muted-foreground">
                   Assign Role
                 </label>
 
@@ -265,16 +265,16 @@ export default function CollaboratorsModal({
 
                           ${
                             inviteRole === role
-                              ? "border-white bg-zinc-900"
-                              : "border-zinc-800 hover:border-zinc-600"
+                              ? "border-white bg-muted"
+                              : "border-border hover:border-primary"
                           }
                         `}
                       >
-                        <h4 className="font-medium text-white">
+                        <h4 className="font-medium text-foreground">
                           {role}
                         </h4>
 
-                        <p className="mt-1 text-xs text-zinc-500">
+                        <p className="mt-1 text-xs text-muted-foreground">
                           Invite as{" "}
                           {role.toLowerCase()}
                         </p>
@@ -288,11 +288,11 @@ export default function CollaboratorsModal({
                 <button
                   className="
                     rounded-xl
-                    bg-white
+                    bg-primary
                     px-5
                     py-2
                     font-medium
-                    text-black
+                    text-primary-foreground
                     hover:bg-zinc-200
                   "
                 >
@@ -301,7 +301,7 @@ export default function CollaboratorsModal({
               </div>
 
               <div className="mt-8">
-                <label className="mb-3 block text-sm text-zinc-400">
+                <label className="mb-3 block text-sm text-muted-foreground">
                   Pending Invitations
                 </label>
 
@@ -313,13 +313,13 @@ export default function CollaboratorsModal({
                         flex items-center justify-between
                         rounded-xl
                         border
-                        border-zinc-800
-                        bg-zinc-900
+                        border-border
+                        bg-muted
                         px-4
                         py-3
                       "
                     >
-                      <p className="text-white">
+                      <p className="text-foreground">
                         @{invite.username}
                       </p>
 
@@ -332,7 +332,7 @@ export default function CollaboratorsModal({
                             px-3
                             py-1
                             text-xs
-                            text-zinc-300
+                            text-foreground
                           "
                         >
                           {invite.role}

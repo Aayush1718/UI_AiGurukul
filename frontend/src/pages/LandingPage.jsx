@@ -1,5 +1,4 @@
 import Navbar from "../components/NavBar.jsx";
-import FeatureCard from "../components/FeatureCard.jsx";
 import { useNavigate } from "react-router-dom";
 import { useLogto } from "@logto/react";
 
@@ -7,7 +6,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
   const { isAuthenticated, signIn } = useLogto();
 
-  const handleBuildClick = () => {
+  const handleStartDesigningClick = () => {
     if (isAuthenticated) {
       navigate("/dashboard");
     } else {
@@ -15,149 +14,269 @@ export default function LandingPage() {
     }
   };
 
-  const handleFeasibilityClick = () => {
-    if (isAuthenticated) {
-      navigate("/feasibility");
-    } else {
-      signIn(`${window.location.origin}/callback`);
-    }
-  };
-
   return (
-    <div className="h-screen bg-[#0A0A0A] flex flex-col">
+    <div className="landing landing-body">
       <Navbar />
 
-      <main
-        className="
-          flex-1
-          mx-auto
-          max-w-7xl
-          w-full
-          px-4
-          md:px-6
-          flex
-          flex-col
-        "
-      >
-        {/* Hero */}
-
-        <section
-          className="
-            flex
-            flex-col
-            items-center
-            justify-center
-            text-center
-            py-8
-            md:py-10
-          "
-        >
-          <div className="mx-auto max-w-4xl">
-            <h1
-              className="
-                text-4xl
-                md:text-5xl
-                lg:text-6xl
-                font-bold
-                tracking-tight
-              "
+      <main className="main-container">
+        {/* Hero Section */}
+        <section className="ui-section ui-section--hero mt-20">
+          <div className="ui-badge animate-enter">
+            <span className="ui-badge-dot"></span>
+            Introducing AgenticArch
+          </div>
+          <h1 className="heading-xl animate-enter delay-1">
+            Build Your Dream Home<br />Faster Than Ever.
+          </h1>
+          <p className="text-muted animate-enter delay-2">
+            Make Customizable Home Architecture In Your Desired Way.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center animate-enter delay-3 mt-12">
+            <button 
+              onClick={handleStartDesigningClick}
+              className="ui-button ui-button--default ui-button--lg"
             >
-              Plan. Analyze. Build.
-            </h1>
-
-            <p
-              className="
-                mt-4
-                text-base
-                md:text-lg
-                text-zinc-400
-                max-w-2xl
-                mx-auto
-              "
-            >
-              AI-powered feasibility analysis and intelligent residential
-              design for modern construction projects.
-            </p>
+              Start Designing
+            </button>
+          </div>
+          
+          {/* Browser Mockup */}
+          <div className="browser-mockup-wrapper animate-enter delay-4">
+            <div className="browser-mockup">
+              <div className="browser-mockup-header relative flex items-center px-4 py-3 border-b border-border bg-muted/30">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                </div>
+                <div className="browser-mockup-url absolute left-1/2 -translate-x-1/2 px-4 py-1 text-xs font-mono bg-background border border-border rounded-md shadow-sm text-muted-foreground w-64 text-center">
+                  aigurukul.dev/dashboard
+                </div>
+              </div>
+              <div className="relative overflow-hidden bg-background rounded-b-xl h-[500px]">
+                {/* Mockup content inside */}
+                <div className="absolute top-0 left-0 w-full h-full bg-zinc-50 border-0 flex items-center justify-center">
+                   <span className="text-muted text-sm">[ Dashboard Image Placeholder ]</span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Actions */}
+        {/* Features Grid */}
+        <section id="features" className="ui-section ui-section--bordered">
+          <div className="text-center mb-20">
+            <p className="text-muted text-sm uppercase tracking-widest font-semibold mb-4">Features</p>
+            <h2 className="heading-lg">AI-Powered Architecture</h2>
+            <p className="text-muted mt-4 max-w-2xl mx-auto">
+              Design, analyze, and build your project with intelligent AI agents guiding every step.
+            </p>
+          </div>
+          <div className="ui-grid">
+            <div className="ui-card">
+              <div className="ui-card-icon"><i className="ri-map-pin-line"></i></div>
+              <h3 className="ui-card-title">Feasibility</h3>
+              <p className="ui-card-desc">Instantly evaluate zoning, FAR, setbacks, and regulations.</p>
+            </div>
+            <div className="ui-card">
+              <div className="ui-card-icon"><i className="ri-draft-line"></i></div>
+              <h3 className="ui-card-title">Planning</h3>
+              <p className="ui-card-desc">Generate optimized site layouts and project strategies.</p>
+            </div>
+            <div className="ui-card">
+              <div className="ui-card-icon"><i className="ri-pencil-ruler-2-line"></i></div>
+              <h3 className="ui-card-title">Design</h3>
+              <p className="ui-card-desc">Create intelligent floor plans and building layouts.</p>
+            </div>
+            <div className="ui-card">
+              <div className="ui-card-icon"><i className="ri-shield-check-line"></i></div>
+              <h3 className="ui-card-title">Compliance</h3>
+              <p className="ui-card-desc">Validate designs against local building codes.</p>
+            </div>
+            <div className="ui-card">
+              <div className="ui-card-icon"><i className="ri-eye-line"></i></div>
+              <h3 className="ui-card-title">Visualization</h3>
+              <p className="ui-card-desc">Explore projects through plans, models, and reports.</p>
+            </div>
+            <div className="ui-card">
+              <div className="ui-card-icon"><i className="ri-team-line"></i></div>
+              <h3 className="ui-card-title">Collaboration</h3>
+              <p className="ui-card-desc">Work seamlessly with clients, architects, and teams.</p>
+            </div>
+          </div>
+        </section>
 
-        <section className="flex-1 pb-6">
-          <div
-            className="
-              h-full
-              grid
-              grid-cols-1
-              lg:grid-cols-2
-              gap-6
-            "
-          >
-            <FeatureCard
-              title="Feasibility Analysis"
-              description="Analyze zoning regulations, setbacks, constraints and overall project feasibility before construction begins."
-              onClick={handleFeasibilityClick}
-            />
+        {/* Capabilities */}
+        <section id="capabilities" className="ui-section ui-section--bordered">
+          <div className="text-center mb-16">
+            <p className="text-muted text-sm uppercase tracking-widest font-semibold mb-4">Capabilities</p>
+            <h2 className="heading-lg">Everything in One Platform</h2>
+            <p className="text-muted mt-4 max-w-2xl mx-auto">
+              A complete AI-native workspace for residential design from concept to final documentation.
+            </p>
+          </div>
+          <div className="component-grid">
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Projects</span>
+              <span className="text-muted text-sm">Organize every project in one centralized workspace.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Conversation</span>
+              <span className="text-muted text-sm">Chat naturally with specialized AI agents.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Analysis</span>
+              <span className="text-muted text-sm">Perform zoning and feasibility assessments instantly.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Generation</span>
+              <span className="text-muted text-sm">Produce site plans, layouts, and design options.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Optimization</span>
+              <span className="text-muted text-sm">Improve designs using AI recommendations.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Reports</span>
+              <span className="text-muted text-sm">Generate professional feasibility and design reports.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Versions</span>
+              <span className="text-muted text-sm">Track every revision and restore previous iterations.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Files</span>
+              <span className="text-muted text-sm">Manage drawings, CAD files, PDFs, and project assets.</span>
+            </div>
+            <div className="component-card p-6 text-center flex flex-col justify-center h-full">
+              <span className="font-bold text-lg mb-2">Sharing</span>
+              <span className="text-muted text-sm">Collaborate securely with clients and team members.</span>
+            </div>
+          </div>
+        </section>
 
-            <FeatureCard
-              title="Build Your House"
-              description="Generate floor plans, layouts and optimized residential designs tailored to your requirements."
-              onClick={handleBuildClick}
-            />
+        {/* How It Works */}
+        <section id="how-it-works" className="ui-section ui-section--bordered">
+          <div className="flex flex-col lg:flex-row items-center gap-20">
+            <div className="lg:w-1/2">
+              <p className="text-muted text-sm uppercase tracking-widest font-semibold mb-4">How It Works</p>
+              <h2 className="heading-lg">Simple Three-Step Workflow</h2>
+              <p className="text-muted text-base mt-6">
+                From idea to complete architectural package through an AI-guided process.
+              </p>
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 text-xs font-bold">1</div>
+                  <div>
+                    <span className="text-sm font-bold block">Describe</span>
+                    <span className="text-muted text-sm">Tell the AI about your project requirements.</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 text-xs font-bold">2</div>
+                  <div>
+                    <span className="text-sm font-bold block">Analyze</span>
+                    <span className="text-muted text-sm">AI evaluates zoning, constraints, and feasibility.</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 text-xs font-bold">3</div>
+                  <div>
+                    <span className="text-sm font-bold block">Generate</span>
+                    <span className="text-muted text-sm">Create site plans, layouts, and design concepts.</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 text-xs font-bold">4</div>
+                  <div>
+                    <span className="text-sm font-bold block">Refine</span>
+                    <span className="text-muted text-sm">Modify designs through natural conversation.</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 text-xs font-bold">5</div>
+                  <div>
+                    <span className="text-sm font-bold block">Review</span>
+                    <span className="text-muted text-sm">Compare versions, reports, and recommendations.</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-600 text-xs font-bold">6</div>
+                  <div>
+                    <span className="text-sm font-bold block">Deliver</span>
+                    <span className="text-muted text-sm">Export drawings, reports, and project documentation.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="ui-section text-center py-32 flex flex-col items-center">
+          <h2 className="heading-lg">Start Designing Today</h2>
+          <p className="text-muted mt-4 max-w-xl mx-auto">
+            Start Designing Your Future Home You Wish For.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center mt-10">
+            <button 
+              onClick={handleStartDesigningClick} 
+              className="ui-button ui-button--default ui-button--lg"
+            >
+              Start Designing
+            </button>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-900 py-8 text-sm text-zinc-400 bg-[#050505]">
-        <div className="w-full px-4 md:px-6">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-4 lg:gap-8 mb-8">
-            <div className="col-span-1 md:col-span-1">
-              <h2 className="text-xl font-bold tracking-tight text-white mb-4">
-                HouseAI
-              </h2>
-              <p className="text-zinc-500 leading-relaxed pr-4">
-                AI-powered feasibility analysis and intelligent residential
-                design for modern construction projects.
+      <footer className="ui-footer">
+        <div className="main-container">
+          <div className="ui-footer-top" style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'space-between', width: '100%' }}>
+            {/* Left Column */}
+            <div className="ui-footer-brand flex flex-col gap-4" style={{ flex: 1, minWidth: '250px' }}>
+              <div className="ui-nav-logo flex items-center gap-2">
+                <span className="font-bold">AiGurukul</span>
+              </div>
+              <p className="text-muted text-sm">
+                Make Customizable Home Architecture In Your Desired Way.
               </p>
+              <div className="text-muted text-sm mt-4">Built By AiGurukul.</div>
             </div>
             
-            <div>
-              <h3 className="text-zinc-200 font-semibold mb-4">Product</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="hover:text-white transition">Features</a></li>
-                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition">Case Studies</a></li>
-                <li><a href="#" className="hover:text-white transition">Updates</a></li>
-              </ul>
+            {/* Right Column */}
+            <div className="ui-footer-links flex flex-col gap-4" style={{ flex: 1, minWidth: '250px' }}>
+              <h3 className="font-bold text-lg mb-2">CONTACT US</h3>
+              <p className="text-muted text-sm mb-4">
+                <span className="font-semibold block mb-1">Any Questions Or Comments?</span>
+                Contact Us If You Want To Know More.
+              </p>
+              <div className="flex flex-col gap-3 text-sm text-muted">
+                <div className="flex items-center gap-2">
+                  <i className="ri-map-pin-line text-xl"></i>
+                  <span>BITS Pilani - Pilani Campus, Rajasthan, India</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <i className="ri-building-line text-xl"></i>
+                  <span>Indian School of Business, Hyderabad, India</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <i className="ri-mail-line text-xl"></i>
+                  <span>Vidyaang.Ai@Gmail.Com</span>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <h3 className="text-zinc-200 font-semibold mb-4">Company</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="hover:text-white transition">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition">Team</a></li>
-                <li><a href="#" className="hover:text-white transition">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition">Blog</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-zinc-200 font-semibold mb-4">Legal</h3>
-              <ul className="space-y-3">
-                <li><a href="#" className="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition">Cookie Policy</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="pt-6 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p>© {new Date().getFullYear()} HouseAI. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition">Twitter</a>
-              <a href="#" className="hover:text-white transition">LinkedIn</a>
-              <a href="#" className="hover:text-white transition">GitHub</a>
+            <div className="ui-footer-social flex flex-col gap-4" style={{ flex: 1, minWidth: '250px' }}>
+                <a href="#" className="text-muted text-sm hover:text-foreground">AiGurukul</a>
+                <a href="#" className="text-muted text-sm hover:text-foreground">AiGurukul Foundation</a>
+                <a href="#" className="text-muted text-sm hover:text-foreground">AiGurukul YouTube</a>
+                
+                <div className="flex gap-4 mt-6">
+                    <a href="#" className="text-xl text-muted hover:text-foreground transition-colors"><i className="ri-youtube-fill"></i></a>
+                    <a href="#" className="text-xl text-muted hover:text-foreground transition-colors"><i className="ri-linkedin-fill"></i></a>
+                    <a href="#" className="text-xl text-muted hover:text-foreground transition-colors"><i className="ri-twitter-x-line"></i></a>
+                    <a href="#" className="text-xl text-muted hover:text-foreground transition-colors"><i className="ri-instagram-line"></i></a>
+                </div>
             </div>
           </div>
         </div>

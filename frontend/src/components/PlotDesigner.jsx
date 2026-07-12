@@ -191,9 +191,9 @@ export default function PlotDesigner({
             className="
               rounded-xl
               border
-              border-zinc-800
+              border-border
               px-3 py-2 md:px-4
-              hover:border-zinc-600
+              hover:border-primary
             "
           >
             + Point
@@ -204,9 +204,9 @@ export default function PlotDesigner({
             className="
               rounded-xl
               border
-              border-zinc-800
+              border-border
               px-3 py-2 md:px-4
-              hover:border-zinc-600
+              hover:border-primary
             "
           >
             Reset
@@ -221,8 +221,8 @@ export default function PlotDesigner({
           min-h-0
           rounded-2xl
           border
-          border-zinc-800
-          bg-zinc-950
+          border-border
+          bg-card
           relative
           overflow-hidden
         "
@@ -314,8 +314,8 @@ export default function PlotDesigner({
           shrink-0
           rounded-2xl
           border
-          border-zinc-800
-          bg-zinc-900
+          border-border
+          bg-muted
           p-4
           flex
           flex-col
@@ -326,7 +326,7 @@ export default function PlotDesigner({
             className="
             mb-3
             text-sm
-            text-zinc-400
+            text-muted-foreground
           "
           >
             Coordinates
@@ -369,7 +369,7 @@ export default function PlotDesigner({
                   rounded-lg
                   border
                   border-zinc-700
-                  bg-zinc-950
+                  bg-card
                   px-2
                   py-1
                   text-sm
@@ -391,7 +391,7 @@ export default function PlotDesigner({
                   rounded-lg
                   border
                   border-zinc-700
-                  bg-zinc-950
+                  bg-card
                   px-2
                   py-1
                   text-sm

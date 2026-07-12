@@ -5,7 +5,8 @@ import { LogtoProvider } from "@logto/react";
 import { UserProvider } from "./context/UserContext";
 
 import App from "./App";
-import "./index.css";
+import "./styles/tailwind.css";
+import "./styles/global.scss";
 
 const logtoConfig = {
   endpoint: import.meta.env.VITE_LOGTO_ENDPOINT,

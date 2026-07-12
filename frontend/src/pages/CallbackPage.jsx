@@ -53,14 +53,14 @@ export default function CallbackPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="flex flex-col items-center gap-5">
           {/* Animated ring */}
           <div className="relative h-16 w-16">
             <div
               className="
                 absolute inset-0 rounded-full
-                border-2 border-zinc-800
+                border-2 border-border
               "
             />
             <div
@@ -72,10 +72,10 @@ export default function CallbackPage() {
           </div>
 
           <div className="text-center">
-            <p className="text-lg font-medium text-white">
+            <p className="text-lg font-medium text-foreground">
               Signing you in
             </p>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-muted-foreground">
               Just a moment...
             </p>
           </div>

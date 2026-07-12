@@ -108,7 +108,7 @@ export default function ProfilePage() {
 
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
 
         {/* Back */}
@@ -117,8 +117,8 @@ export default function ProfilePage() {
           className="
             mb-8
             text-sm
-            text-zinc-400
-            hover:text-white
+            text-muted-foreground
+            hover:text-foreground
             transition
           "
         >
@@ -131,7 +131,7 @@ export default function ProfilePage() {
             Account Settings
           </h1>
 
-          <p className="mt-2 text-zinc-400">
+          <p className="mt-2 text-muted-foreground">
             Manage your account and preferences.
           </p>
         </div>
@@ -144,8 +144,8 @@ export default function ProfilePage() {
             className="
               rounded-3xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-border
+              bg-muted
               p-8
               h-fit
             "
@@ -171,7 +171,7 @@ export default function ProfilePage() {
                 {profileData.name}
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-400">
+              <p className="mt-2 text-sm text-muted-foreground">
                 {profileData.email}
               </p>
 
@@ -199,8 +199,8 @@ export default function ProfilePage() {
               overflow-hidden
               rounded-3xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-border
+              bg-muted
             "
           >
             <button
@@ -213,10 +213,10 @@ export default function ProfilePage() {
                 items-center
                 justify-between
                 border-b
-                border-zinc-800
+                border-border
                 px-6
                 py-6
-                hover:bg-zinc-800/50
+                hover:bg-muted/50
                 transition
               "
             >
@@ -225,12 +225,12 @@ export default function ProfilePage() {
                   Edit Profile
                 </p>
 
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Update your personal information
                 </p>
               </div>
 
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 →
               </span>
             </button>
@@ -246,10 +246,10 @@ export default function ProfilePage() {
                 items-center
                 justify-between
                 border-b
-                border-zinc-800
+                border-border
                 px-6
                 py-6
-                hover:bg-zinc-800/50
+                hover:bg-muted/50
                 transition
               "
             >
@@ -258,12 +258,12 @@ export default function ProfilePage() {
                   Manage Security & Password
                 </p>
 
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Update password & authentication
                 </p>
               </div>
 
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 ↗
               </span>
             </button>
@@ -276,10 +276,10 @@ export default function ProfilePage() {
                 items-center
                 justify-between
                 border-b
-                border-zinc-800
+                border-border
                 px-6
                 py-6
-                hover:bg-zinc-800/50
+                hover:bg-muted/50
                 transition
               "
             >
@@ -288,12 +288,12 @@ export default function ProfilePage() {
                   Logout
                 </p>
 
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Sign out from your account
                 </p>
               </div>
 
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 →
               </span>
             </button>
@@ -349,8 +349,8 @@ export default function ProfilePage() {
               max-w-md
               rounded-3xl
               border
-              border-zinc-800
-              bg-[#111111]
+              border-border
+              bg-popover
               p-6
             "
           >
@@ -358,13 +358,13 @@ export default function ProfilePage() {
               Delete Account
             </h2>
 
-            <p className="mt-3 text-zinc-400">
+            <p className="mt-3 text-muted-foreground">
               This action cannot be undone.
               Your projects and account data
               will be permanently deleted.
             </p>
 
-            <p className="mt-5 text-sm text-zinc-500">
+            <p className="mt-5 text-sm text-muted-foreground">
               Type{" "}
               <span className="font-semibold text-red-400">
                 DELETE
@@ -382,8 +382,8 @@ export default function ProfilePage() {
                 w-full
                 rounded-xl
                 border
-                border-zinc-800
-                bg-zinc-950
+                border-border
+                bg-card
                 px-4
                 py-3
                 outline-none
@@ -400,7 +400,7 @@ export default function ProfilePage() {
                 className="
                   rounded-xl
                   border
-                  border-zinc-800
+                  border-border
                   px-4
                   py-2
                 "
@@ -447,8 +447,8 @@ export default function ProfilePage() {
               max-w-lg
               rounded-3xl
               border
-              border-zinc-800
-              bg-[#111111]
+              border-border
+              bg-popover
               p-6
             "
           >
@@ -458,7 +458,7 @@ export default function ProfilePage() {
 
             <div className="mt-6 space-y-4">
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Name
                 </label>
 
@@ -474,8 +474,8 @@ export default function ProfilePage() {
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-950
+                    border-border
+                    bg-card
                     px-4
                     py-3
                     outline-none
@@ -485,7 +485,7 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Email
                 </label>
 
@@ -497,9 +497,9 @@ export default function ProfilePage() {
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-900/50
-                    text-zinc-500
+                    border-border
+                    bg-muted/50
+                    text-muted-foreground
                     px-4
                     py-3
                     outline-none
@@ -509,7 +509,7 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Phone Number
                 </label>
 
@@ -525,8 +525,8 @@ export default function ProfilePage() {
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-950
+                    border-border
+                    bg-card
                     px-4
                     py-3
                     outline-none
@@ -536,7 +536,7 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Location
                 </label>
 
@@ -552,8 +552,8 @@ export default function ProfilePage() {
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-950
+                    border-border
+                    bg-card
                     px-4
                     py-3
                     outline-none
@@ -571,7 +571,7 @@ export default function ProfilePage() {
                 className="
                   rounded-xl
                   border
-                  border-zinc-800
+                  border-border
                   px-4
                   py-2
                 "

@@ -6,8 +6,8 @@ export default function AuthCard({ children }) {
         max-w-md
         rounded-3xl
         border
-        border-zinc-800
-        bg-zinc-950
+        border-border
+        bg-card
         p-8
         md:p-10
       "

@@ -167,7 +167,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
+    <div className="min-h-screen bg-background">
       <DashboardNavbar />
 
       <main className="mx-auto max-w-screen-2xl px-4 py-8">
@@ -183,7 +183,7 @@ export default function DashboardPage() {
               flex-col
               justify-between
               border-r
-              border-zinc-900
+              border-border
               pr-6
               min-h-[calc(100vh-8rem)]
             "
@@ -195,14 +195,14 @@ export default function DashboardPage() {
                   text-xs
                   uppercase
                   tracking-widest
-                  text-zinc-500
+                  text-muted-foreground
                   font-medium
                 "
               >
                 Workspaces
               </h2>
 
-              <p className="mt-2 text-xs text-zinc-600">
+              <p className="mt-2 text-xs text-muted-foreground">
                 {workspaces.length} workspaces
               </p>
             </div>
@@ -227,8 +227,8 @@ export default function DashboardPage() {
                     ${
                       selectedWorkspace ===
                       workspace.id
-                        ? "bg-zinc-900 text-white"
-                        : "text-zinc-400 hover:bg-zinc-900/50"
+                        ? "bg-muted text-foreground"
+                        : "text-muted-foreground hover:bg-muted/50"
                     }
                   `}
                 >
@@ -242,7 +242,7 @@ export default function DashboardPage() {
                         bottom-2
                         w-1
                         rounded-full
-                        bg-white
+                        bg-primary
                       "
                     />
                   )}
@@ -261,9 +261,9 @@ export default function DashboardPage() {
                 rounded-xl
                 py-3
                 text-left
-                text-zinc-500
+                text-muted-foreground
                 transition
-                hover:text-white
+                hover:text-foreground
               "
             >
               New Workspace
@@ -284,7 +284,7 @@ export default function DashboardPage() {
                       className="
                         absolute bottom-full left-0 mb-2 z-50
                         w-full rounded-xl
-                        border border-zinc-800 bg-zinc-950
+                        border border-border bg-card
                         p-1 shadow-xl shadow-black/40
                       "
                     >
@@ -296,8 +296,8 @@ export default function DashboardPage() {
                         className="
                           w-full flex items-center gap-3
                           rounded-lg px-3 py-2.5
-                          text-sm text-zinc-300
-                          transition hover:bg-zinc-900 hover:text-white
+                          text-sm text-foreground
+                          transition hover:bg-muted hover:text-foreground
                         "
                       >
                         <User size={16} />
@@ -308,8 +308,8 @@ export default function DashboardPage() {
                         className="
                           mt-1 w-full flex items-center gap-3
                           rounded-lg px-3 py-2.5
-                          text-sm text-zinc-300
-                          transition hover:bg-zinc-900 hover:text-white
+                          text-sm text-foreground
+                          transition hover:bg-muted hover:text-foreground
                         "
                       >
                         <LogOut size={16} />
@@ -325,25 +325,25 @@ export default function DashboardPage() {
                   className="
                     flex w-full items-center justify-between
                     rounded-xl p-2 -ml-2
-                    transition hover:bg-zinc-900
+                    transition hover:bg-muted
                   "
                 >
                   <div className="flex items-center gap-3 truncate">
                     <div
                       className="
                         flex h-8 w-8 shrink-0 items-center justify-center
-                        rounded-full bg-zinc-800
-                        text-xs font-medium text-white
+                        rounded-full bg-muted
+                        text-xs font-medium text-foreground
                       "
                       title={userName}
                     >
                       {initials}
                     </div>
-                    <span className="truncate text-sm font-medium text-zinc-300">
+                    <span className="truncate text-sm font-medium text-foreground">
                       {userName || "User"}
                     </span>
                   </div>
-                  <ChevronUp size={16} className="text-zinc-500 shrink-0" />
+                  <ChevronUp size={16} className="text-muted-foreground shrink-0" />
                 </button>
               </div>
             )}
@@ -374,11 +374,11 @@ export default function DashboardPage() {
                       justify-between
                       rounded-xl
                       border
-                      border-zinc-800
-                      bg-zinc-950
+                      border-border
+                      bg-card
                       px-4
                       py-3
-                      text-white
+                      text-foreground
                     "
                   >
                     <span>
@@ -412,8 +412,8 @@ export default function DashboardPage() {
                         overflow-hidden
                         rounded-xl
                         border
-                        border-zinc-800
-                        bg-zinc-950
+                        border-border
+                        bg-card
                         shadow-2xl
                       "
                     >
@@ -438,8 +438,8 @@ export default function DashboardPage() {
                               ${
                                 selectedWorkspace ===
                                 workspace.id
-                                  ? "bg-zinc-900 text-white"
-                                  : "text-zinc-400 hover:bg-zinc-900"
+                                  ? "bg-muted text-foreground"
+                                  : "text-muted-foreground hover:bg-muted"
                               }
                             `}
                           >
@@ -459,12 +459,12 @@ export default function DashboardPage() {
                     flex-1
                     rounded-xl
                     border
-                    border-zinc-800
+                    border-border
                     px-4
                     py-3
                     text-sm
-                    text-zinc-300
-                    hover:border-zinc-600
+                    text-foreground
+                    hover:border-primary
                   "
                 >
                   New Workspace
@@ -485,11 +485,11 @@ export default function DashboardPage() {
               "
             >
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-white">
+                <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   {currentWorkspace?.name}
                 </h1>
 
-                <p className="mt-2 text-sm text-zinc-500">
+                <p className="mt-2 text-sm text-muted-foreground">
                   {filteredProjects.length}{" "}
                   project
                   {filteredProjects.length !== 1
@@ -505,12 +505,12 @@ export default function DashboardPage() {
                   sm:w-auto
                   rounded-xl
                   border
-                  border-zinc-800
+                  border-border
                   px-4
                   py-3
-                  text-zinc-300
+                  text-foreground
                   font-medium
-                  hover:border-zinc-600
+                  hover:border-primary
                 "
               >
                 + New Project
@@ -522,17 +522,17 @@ export default function DashboardPage() {
                 className="
                   rounded-3xl
                   border
-                  border-zinc-800
-                  bg-zinc-950
+                  border-border
+                  bg-card
                   p-12
                   text-center
                 "
               >
-                <h3 className="text-xl text-white">
+                <h3 className="text-xl text-foreground">
                   No projects yet
                 </h3>
 
-                <p className="mt-2 text-zinc-500">
+                <p className="mt-2 text-muted-foreground">
                   Create your first project
                   in this workspace.
                 </p>
@@ -543,11 +543,11 @@ export default function DashboardPage() {
                     mt-6
                     rounded-xl
                     border
-                    border-zinc-800
+                    border-border
                     px-4
                     py-2
-                    text-zinc-300
-                    hover:border-zinc-600
+                    text-foreground
+                    hover:border-primary
                   "
                 >
                   Create Project
@@ -591,14 +591,14 @@ export default function DashboardPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-900 py-8 text-sm text-zinc-400 bg-[#050505]">
+      <footer className="border-t border-border py-8 text-sm text-muted-foreground bg-card">
         <div className="w-full px-4 md:px-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-4 lg:gap-8 mb-8">
             <div className="col-span-1 md:col-span-1">
-              <h2 className="text-xl font-bold tracking-tight text-white mb-4">
+              <h2 className="text-xl font-bold tracking-tight text-foreground mb-4">
                 HouseAI
               </h2>
-              <p className="text-zinc-500 leading-relaxed pr-4">
+              <p className="text-muted-foreground leading-relaxed pr-4">
                 AI-powered feasibility analysis and intelligent residential
                 design for modern construction projects.
               </p>
@@ -607,39 +607,39 @@ export default function DashboardPage() {
             <div>
               <h3 className="text-zinc-200 font-semibold mb-4">Product</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="hover:text-white transition">Features</a></li>
-                <li><a href="#" className="hover:text-white transition">Pricing</a></li>
-                <li><a href="#" className="hover:text-white transition">Case Studies</a></li>
-                <li><a href="#" className="hover:text-white transition">Updates</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Features</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Pricing</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Case Studies</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Updates</a></li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-zinc-200 font-semibold mb-4">Company</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="hover:text-white transition">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition">Team</a></li>
-                <li><a href="#" className="hover:text-white transition">Careers</a></li>
-                <li><a href="#" className="hover:text-white transition">Blog</a></li>
+                <li><a href="#" className="hover:text-foreground transition">About Us</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Team</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Careers</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Blog</a></li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-zinc-200 font-semibold mb-4">Legal</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition">Cookie Policy</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Cookie Policy</a></li>
               </ul>
             </div>
           </div>
           
-          <div className="pt-6 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
             <p>© {new Date().getFullYear()} HouseAI. All rights reserved.</p>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition">Twitter</a>
-              <a href="#" className="hover:text-white transition">LinkedIn</a>
-              <a href="#" className="hover:text-white transition">GitHub</a>
+              <a href="#" className="hover:text-foreground transition">Twitter</a>
+              <a href="#" className="hover:text-foreground transition">LinkedIn</a>
+              <a href="#" className="hover:text-foreground transition">GitHub</a>
             </div>
           </div>
         </div>
@@ -664,16 +664,16 @@ export default function DashboardPage() {
               max-w-md
               rounded-3xl
               border
-              border-zinc-800
-              bg-[#111111]
+              border-border
+              bg-popover
               p-6
             "
           >
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="text-xl font-semibold text-foreground">
               Create Workspace
             </h2>
 
-            <p className="mt-2 text-zinc-500">
+            <p className="mt-2 text-muted-foreground">
               Organize projects into a new
               workspace.
             </p>
@@ -691,11 +691,11 @@ export default function DashboardPage() {
                 w-full
                 rounded-xl
                 border
-                border-zinc-800
-                bg-zinc-950
+                border-border
+                bg-card
                 px-4
                 py-3
-                text-white
+                text-foreground
                 outline-none
                 focus:border-zinc-600
               "
@@ -713,10 +713,10 @@ export default function DashboardPage() {
                 className="
                   rounded-xl
                   border
-                  border-zinc-800
+                  border-border
                   px-4
                   py-2
-                  text-zinc-300
+                  text-foreground
                 "
               >
                 Cancel
@@ -729,10 +729,10 @@ export default function DashboardPage() {
                 }
                 className="
                   rounded-xl
-                  bg-white
+                  bg-primary
                   px-4
                   py-2
-                  text-black
+                  text-primary-foreground
                   disabled:opacity-50
                 "
               >

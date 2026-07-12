@@ -45,8 +45,8 @@ export default function BuildingSidebar({
               title={section.name}
               className={`w-full flex items-center ${isExpanded ? 'gap-3 px-4' : 'justify-center px-0'} rounded-xl py-3 text-left transition ${
                 activeSection === section.name
-                  ? "bg-zinc-900 text-white"
-                  : "text-zinc-400 hover:bg-zinc-900/50 hover:text-white"
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
               }`}
             >
               <Icon size={20} className="shrink-0" />
@@ -63,7 +63,7 @@ export default function BuildingSidebar({
           title="Workspace"
           className={`
             w-full flex items-center ${isExpanded ? 'gap-3 px-4' : 'justify-center px-0'} 
-            rounded-xl py-3 text-left transition text-zinc-400 hover:bg-zinc-900/50 hover:text-white
+            rounded-xl py-3 text-left transition text-muted-foreground hover:bg-muted/50 hover:text-foreground
           `}
         >
           <LayoutDashboard size={20} className="shrink-0" />
@@ -85,7 +85,7 @@ export default function BuildingSidebar({
                   absolute bottom-full mb-2 z-50
                   ${isExpanded ? 'left-0 w-full' : 'left-full ml-2 w-48'}
                   rounded-xl
-                  border border-zinc-800 bg-zinc-950
+                  border border-border bg-card
                   p-1 shadow-xl shadow-black/40
                 `}
               >
@@ -97,8 +97,8 @@ export default function BuildingSidebar({
                   className="
                     w-full flex items-center gap-3
                     rounded-lg px-3 py-2.5
-                    text-sm text-zinc-300
-                    transition hover:bg-zinc-900 hover:text-white
+                    text-sm text-foreground
+                    transition hover:bg-muted hover:text-foreground
                   "
                 >
                   <User size={16} />
@@ -109,8 +109,8 @@ export default function BuildingSidebar({
                   className="
                     mt-1 w-full flex items-center gap-3
                     rounded-lg px-3 py-2.5
-                    text-sm text-zinc-300
-                    transition hover:bg-zinc-900 hover:text-white
+                    text-sm text-foreground
+                    transition hover:bg-muted hover:text-foreground
                   "
                 >
                   <LogOut size={16} />
@@ -126,27 +126,27 @@ export default function BuildingSidebar({
             className={`
               flex w-full items-center ${isExpanded ? 'justify-between px-2' : 'justify-center px-0'}
               rounded-xl py-2
-              transition hover:bg-zinc-900
+              transition hover:bg-muted
             `}
           >
             <div className={`flex items-center ${isExpanded ? 'gap-3' : 'gap-0'} truncate`}>
               <div
                 className="
                   flex h-8 w-8 shrink-0 items-center justify-center
-                  rounded-full bg-zinc-800
-                  text-xs font-medium text-white
+                  rounded-full bg-muted
+                  text-xs font-medium text-foreground
                 "
                 title={userName}
               >
                 {initials}
               </div>
               {isExpanded && (
-                <span className="truncate text-sm font-medium text-zinc-300">
+                <span className="truncate text-sm font-medium text-foreground">
                   {userName || "User"}
                 </span>
               )}
             </div>
-            {isExpanded && <ChevronUp size={16} className="text-zinc-500 shrink-0" />}
+            {isExpanded && <ChevronUp size={16} className="text-muted-foreground shrink-0" />}
           </button>
         </div>
         )}

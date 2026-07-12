@@ -6,7 +6,7 @@ export default function ProtectedRoute({ children }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div
             className="
@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children }) {
               border-2 border-zinc-700 border-t-white
             "
           />
-          <p className="text-sm text-zinc-500">Loading...</p>
+          <p className="text-sm text-muted-foreground">Loading...</p>
         </div>
       </div>
     );

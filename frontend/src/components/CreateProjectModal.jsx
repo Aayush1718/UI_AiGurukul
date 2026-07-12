@@ -82,25 +82,25 @@ export default function CreateProjectModal({
           max-w-3xl
           rounded-3xl
           border
-          border-zinc-800
-          bg-zinc-950
+          border-border
+          bg-card
           shadow-2xl
           p-6
         "
       >
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-white">
+          <h2 className="text-2xl font-semibold text-foreground">
             Create New Project
           </h2>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-1 text-sm text-muted-foreground">
             Start a new residential project.
           </p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm text-zinc-400">
+            <label className="mb-2 block text-sm text-muted-foreground">
               Project Name
             </label>
 
@@ -114,11 +114,11 @@ export default function CreateProjectModal({
                 w-full
                 rounded-xl
                 border
-                border-zinc-800
-                bg-zinc-900
+                border-border
+                bg-muted
                 px-4
                 py-3
-                text-white
+                text-foreground
                 outline-none
                 focus:border-zinc-600
               "
@@ -126,7 +126,7 @@ export default function CreateProjectModal({
           </div>
 
           <div>
-            <label className="mb-2 block text-sm text-zinc-400">
+            <label className="mb-2 block text-sm text-muted-foreground">
               Location
             </label>
 
@@ -140,11 +140,11 @@ export default function CreateProjectModal({
                 w-full
                 rounded-xl
                 border
-                border-zinc-800
-                bg-zinc-900
+                border-border
+                bg-muted
                 px-4
                 py-3
-                text-white
+                text-foreground
                 outline-none
                 focus:border-zinc-600
               "
@@ -153,7 +153,7 @@ export default function CreateProjectModal({
         </div>
 
         <div className="mt-6">
-          <label className="mb-3 block text-sm text-zinc-400">
+          <label className="mb-3 block text-sm text-muted-foreground">
             Project Type
           </label>
 
@@ -171,16 +171,16 @@ export default function CreateProjectModal({
 
                   ${
                     projectType === item.title
-                      ? "border-white bg-zinc-900"
-                      : "border-zinc-800 hover:border-zinc-600"
+                      ? "border-white bg-muted"
+                      : "border-border hover:border-primary"
                   }
                 `}
               >
-                <h4 className="font-medium text-white">
+                <h4 className="font-medium text-foreground">
                   {item.title}
                 </h4>
 
-                <p className="mt-1 text-xs text-zinc-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   {item.description}
                 </p>
               </button>
@@ -189,7 +189,7 @@ export default function CreateProjectModal({
         </div>
 
         <div className="mt-6">
-          <label className="mb-3 block text-sm text-zinc-400">
+          <label className="mb-3 block text-sm text-muted-foreground">
             Choose Role
           </label>
 
@@ -207,16 +207,16 @@ export default function CreateProjectModal({
 
                   ${
                     role === item.title
-                      ? "border-white bg-zinc-900"
-                      : "border-zinc-800 hover:border-zinc-600"
+                      ? "border-white bg-muted"
+                      : "border-border hover:border-primary"
                   }
                 `}
               >
-                <h4 className="font-medium text-white">
+                <h4 className="font-medium text-foreground">
                   {item.title}
                 </h4>
 
-                <p className="mt-1 text-xs text-zinc-500">
+                <p className="mt-1 text-xs text-muted-foreground">
                   {item.description}
                 </p>
               </button>
@@ -231,8 +231,8 @@ export default function CreateProjectModal({
               rounded-xl
               px-4
               py-2
-              text-zinc-400
-              hover:text-white
+              text-muted-foreground
+              hover:text-foreground
             "
           >
             Cancel
@@ -242,11 +242,11 @@ export default function CreateProjectModal({
             onClick={handleCreate}
             className="
               rounded-xl
-              bg-white
+              bg-primary
               px-5
               py-2
               font-medium
-              text-black
+              text-primary-foreground
               hover:bg-zinc-200
             "
           >

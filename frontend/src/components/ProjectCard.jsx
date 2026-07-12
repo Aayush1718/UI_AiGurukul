@@ -10,22 +10,22 @@ export default function ProjectCard({
       className="
         rounded-3xl
         border
-        border-zinc-800
-        bg-zinc-950
+        border-border
+        bg-card
         p-6
       "
     >
-      <h3 className="text-xl font-semibold text-white">
+      <h3 className="text-xl font-semibold text-foreground">
         {name}
       </h3>
 
       <div className="mt-3">
-        <span className="rounded-full border border-zinc-800 px-3 py-1 text-xs text-zinc-300">
+        <span className="rounded-full border border-border px-3 py-1 text-xs text-foreground">
           {role}
         </span>
       </div>
 
-      <p className="mt-6 text-sm text-zinc-500">
+      <p className="mt-6 text-sm text-muted-foreground">
         Updated {updated}
       </p>
 
@@ -36,10 +36,10 @@ export default function ProjectCard({
             flex-1
             rounded-xl
             border
-            border-zinc-800
+            border-border
             py-2
-            text-zinc-300
-            hover:border-zinc-600
+            text-foreground
+            hover:border-primary
           "
         >
           Open
@@ -51,10 +51,10 @@ export default function ProjectCard({
             flex-1
             rounded-xl
             border
-            border-zinc-800
+            border-border
             py-2
-            text-zinc-300
-            hover:border-zinc-600
+            text-foreground
+            hover:border-primary
           "
         >
           Team

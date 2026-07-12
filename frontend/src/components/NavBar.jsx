@@ -1,6 +1,6 @@
-import Button from "./Button";
 import { useLogto } from "@logto/react";
 import DashboardNavbar from "./DashboardNavbar";
+import ThemeControls from "./ThemeControls";
 
 export default function Navbar() {
   const { signIn, isAuthenticated } = useLogto();
@@ -14,28 +14,34 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b border-zinc-900">
-      <div className="flex h-16 w-full items-center justify-between px-4 md:px-6">
-        <h1 className="text-xl font-bold tracking-tight text-white">
-          HouseAI
-        </h1>
-
-        <div className="flex items-center gap-6">
-          <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Team</a>
-          <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition hidden md:block">Blog</a>
-          <div className="hidden md:block h-4 w-px bg-zinc-800" />
-          
-          <div className="flex items-center gap-3">
-            <Button onClick={handleSignIn}>
-              Sign In
-            </Button>
-
-            <Button onClick={handleSignIn}>
-              Sign Up
-            </Button>
-          </div>
+    <nav className="ui-nav ui-nav--bordered">
+        <div className="ui-nav-content flex items-center justify-between w-full mx-auto px-4 md:px-8">
+            <div className="flex justify-start">
+                <a href="/" className="ui-nav-logo flex items-center gap-2">
+                    <span className="font-bold">AiGurukul</span>
+                </a>
+            </div>
+            <div className="ui-nav-links hidden md:flex flex-1 justify-center gap-8">
+                <a href="#features">Features</a>
+                <a href="#capabilities">Capabilities</a>
+                <a href="#how-it-works">How It Works</a>
+            </div>
+            <div className="flex justify-end items-center gap-2 md:gap-4">
+                <ThemeControls />
+                <button 
+                  onClick={handleSignIn} 
+                  className="ui-button ui-button--ghost hidden sm:inline-flex"
+                >
+                  Sign up
+                </button>
+                <button 
+                  onClick={handleSignIn} 
+                  className="ui-button ui-button--default text-sm md:text-base px-3 py-1.5 md:px-4 md:py-2"
+                >
+                  Start Designing
+                </button>
+            </div>
         </div>
-      </div>
-    </header>
+    </nav>
   );
 }

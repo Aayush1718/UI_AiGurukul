@@ -64,7 +64,7 @@ export default function DrawingToolbar({
   };
 
   return (
-    <div className="border-b border-zinc-900 px-4 md:px-6 py-4 flex items-center gap-4">
+    <div className="border-b border-border px-4 md:px-6 py-4 flex items-center gap-4">
       <div
         ref={dropdownRef}
         className="relative"
@@ -81,8 +81,8 @@ export default function DrawingToolbar({
             justify-between
             rounded-xl
             border
-            border-zinc-800
-            bg-zinc-900
+            border-border
+            bg-muted
             px-4
             py-3
             text-left
@@ -91,11 +91,11 @@ export default function DrawingToolbar({
           "
         >
           <div>
-            {/* <p className="text-xs text-zinc-500">
+            {/* <p className="text-xs text-muted-foreground">
               Current View
             </p> */}
 
-            <p className="text-sm font-medium text-white">
+            <p className="text-sm font-medium text-foreground">
               {selectedView}
             </p>
           </div>
@@ -121,8 +121,8 @@ export default function DrawingToolbar({
               overflow-hidden
               rounded-2xl
               border
-              border-zinc-800
-              bg-zinc-950
+              border-border
+              bg-card
               shadow-2xl
             "
           >
@@ -154,8 +154,8 @@ export default function DrawingToolbar({
                         ${
                           selectedView ===
                           stage
-                            ? "bg-zinc-900"
-                            : "hover:bg-zinc-900/60"
+                            ? "bg-muted"
+                            : "hover:bg-muted/60"
                         }
                       `}
                     >
@@ -169,14 +169,14 @@ export default function DrawingToolbar({
 
                         {status ===
                           "current" && (
-                          <span className="text-white">
+                          <span className="text-foreground">
                             ●
                           </span>
                         )}
 
                         {status ===
                           "pending" && (
-                          <span className="text-zinc-600">
+                          <span className="text-muted-foreground">
                             ○
                           </span>
                         )}
@@ -188,8 +188,8 @@ export default function DrawingToolbar({
                           ${
                             selectedView ===
                             stage
-                              ? "text-white"
-                              : "text-zinc-300"
+                              ? "text-foreground"
+                              : "text-foreground"
                           }
                         `}
                       >

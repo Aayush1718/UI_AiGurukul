@@ -15,11 +15,11 @@ export default function PlannerChat({ projectType = "Full Layout" }) {
         lg:max-w-[420px]
         lg:shrink-0
         lg:border-l
-        lg:border-zinc-900
+        lg:border-border
       "
     >
-      <div className="hidden md:block border-b border-zinc-900 p-4">
-        <h2 className="font-semibold text-white">
+      <div className="hidden md:block border-b border-border p-4">
+        <h2 className="font-semibold text-foreground">
           {agentName}
         </h2>
       </div>
@@ -34,30 +34,30 @@ export default function PlannerChat({ projectType = "Full Layout" }) {
           space-y-4
         "
       >
-        <div className="max-w-[90%] break-words rounded-2xl bg-zinc-900 p-4 text-sm">
+        <div className="max-w-[90%] break-words rounded-2xl bg-muted p-4 text-sm">
           Hello. Describe your project and upload a DXF if available.
         </div>
 
-        <div className="ml-auto max-w-[90%] break-words rounded-2xl bg-violet-600 p-4 text-sm">
+        <div className="ml-auto max-w-[90%] break-words rounded-2xl bg-primary p-4 text-sm text-primary-foreground">
           I need a 3 BHK house with a garage.
         </div>
 
-        <div className="max-w-[90%] break-words rounded-2xl bg-zinc-900 p-4 text-sm">
+        <div className="max-w-[90%] break-words rounded-2xl bg-muted p-4 text-sm">
           Understood. Starting site analysis...
         </div>
       </div>
 
-      <div className="border-t border-zinc-900 p-4">
+      <div className="border-t border-border p-4">
         <div className="flex min-w-0 gap-2">
           <button
             className="
               shrink-0
               rounded-xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-border
+              bg-muted
               px-3
-              hover:border-zinc-600
+              hover:border-primary
             "
           >
             📎
@@ -69,8 +69,8 @@ export default function PlannerChat({ projectType = "Full Layout" }) {
               flex-1
               rounded-xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-border
+              bg-muted
               px-4
               py-3
               outline-none

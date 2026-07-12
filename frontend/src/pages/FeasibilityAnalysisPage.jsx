@@ -6,7 +6,7 @@ export default function FeasibilityAnalysisPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex flex-col text-white">
+    <div className="min-h-screen bg-background flex flex-col text-foreground">
       <Navbar />
 
       <main className="flex-1 w-full max-w-6xl mx-auto px-4 md:px-6 py-8 flex flex-col gap-8">
@@ -18,20 +18,20 @@ export default function FeasibilityAnalysisPage() {
               <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-semibold rounded-full border border-emerald-500/20">
                 Analysis Complete
               </span>
-              <span className="text-zinc-500 text-sm font-medium">
+              <span className="text-muted-foreground text-sm font-medium">
                 ID: FA-2026-X8
               </span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
               Feasibility Analysis
             </h1>
-            <p className="text-zinc-400 mt-2 text-base">
-              Zoning, compliance, and environmental constraints for <span className="text-white font-medium">123</span>
+            <p className="text-muted-foreground mt-2 text-base">
+              Zoning, compliance, and environmental constraints for <span className="text-foreground font-medium">123</span>
             </p>
           </div>
           
           <div>
-            <button className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-lg text-sm font-medium transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted border border-border rounded-lg text-sm font-medium transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -41,15 +41,15 @@ export default function FeasibilityAnalysisPage() {
         </div>
 
         {/* Verdict Banner */}
-        <div className="bg-[#141414] border border-zinc-800/60 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-[#141414] border border-border/60 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-2xl">
             <h2 className="text-xl md:text-2xl font-bold mb-3">Verdict: Highly Feasible</h2>
-            <p className="text-zinc-400 leading-relaxed text-sm md:text-base">
+            <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
               Based on local municipal codes (Zone R-3), this parcel supports residential development up to 3 stories. Environmental risk is low, and standard setbacks apply. The site geometry is favorable for both standard and custom floor plans.
             </p>
           </div>
           <div className="flex flex-col items-center md:items-end shrink-0 w-full md:w-auto">
-            <span className="text-zinc-400 text-xs mb-2">Do you want to build?</span>
+            <span className="text-muted-foreground text-xs mb-2">Do you want to build?</span>
             <button 
               onClick={() => navigate('/project/new')}
               className="w-full md:w-auto px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
@@ -102,20 +102,20 @@ export default function FeasibilityAnalysisPage() {
               Required Setbacks
             </h3>
             
-            <div className="bg-[#141414] border border-zinc-800/60 rounded-2xl overflow-hidden flex-1">
-              <div className="flex justify-between items-center px-5 py-4 border-b border-zinc-800/60">
-                <span className="text-zinc-400 font-medium text-sm">Boundary</span>
-                <span className="text-zinc-400 font-medium text-sm">Distance</span>
+            <div className="bg-[#141414] border border-border/60 rounded-2xl overflow-hidden flex-1">
+              <div className="flex justify-between items-center px-5 py-4 border-b border-border/60">
+                <span className="text-muted-foreground font-medium text-sm">Boundary</span>
+                <span className="text-muted-foreground font-medium text-sm">Distance</span>
               </div>
-              <div className="flex justify-between items-center px-5 py-4 border-b border-zinc-800/60">
+              <div className="flex justify-between items-center px-5 py-4 border-b border-border/60">
                 <span className="text-sm">Front (Street)</span>
                 <span className="text-sm text-indigo-300 font-medium">20 ft</span>
               </div>
-              <div className="flex justify-between items-center px-5 py-4 border-b border-zinc-800/60">
+              <div className="flex justify-between items-center px-5 py-4 border-b border-border/60">
                 <span className="text-sm">Rear</span>
                 <span className="text-sm text-indigo-300 font-medium">15 ft</span>
               </div>
-              <div className="flex justify-between items-center px-5 py-4 border-b border-zinc-800/60">
+              <div className="flex justify-between items-center px-5 py-4 border-b border-border/60">
                 <span className="text-sm">Side (Interior)</span>
                 <span className="text-sm text-indigo-300 font-medium">5 ft</span>
               </div>
@@ -135,7 +135,7 @@ export default function FeasibilityAnalysisPage() {
               Site Geometry Preview
             </h3>
             
-            <div className="bg-[#141414] border border-zinc-800/60 rounded-2xl overflow-hidden flex-1 relative min-h-[300px]">
+            <div className="bg-[#141414] border border-border/60 rounded-2xl overflow-hidden flex-1 relative min-h-[300px]">
               {/* Dotted Background Grid */}
               <div 
                 className="absolute inset-0 opacity-20 pointer-events-none" 
@@ -169,14 +169,14 @@ export default function FeasibilityAnalysisPage() {
               </div>
 
               {/* Legend */}
-              <div className="absolute bottom-4 left-4 bg-[#0A0A0A]/80 backdrop-blur-sm border border-zinc-800/60 p-3 rounded-xl flex flex-col gap-2">
+              <div className="absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm border border-border/60 p-3 rounded-xl flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-0.5 bg-indigo-500 rounded"></div>
-                  <span className="text-xs text-zinc-400">Property Line</span>
+                  <span className="text-xs text-muted-foreground">Property Line</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-0.5 bg-emerald-500 rounded"></div>
-                  <span className="text-xs text-zinc-400">Buildable Envelope</span>
+                  <span className="text-xs text-muted-foreground">Buildable Envelope</span>
                 </div>
               </div>
             </div>
@@ -189,14 +189,14 @@ export default function FeasibilityAnalysisPage() {
   );
 }
 
-function MetricCard({ title, value, unit, subtext, subtextColor = "text-zinc-500" }) {
+function MetricCard({ title, value, unit, subtext, subtextColor = "text-muted-foreground" }) {
   return (
-    <div className="bg-[#141414] border border-zinc-800/60 rounded-2xl p-5 flex flex-col justify-between hover:border-zinc-700 transition-colors">
-      <div className="text-sm text-zinc-400 mb-4 font-medium">{title}</div>
+    <div className="bg-[#141414] border border-border/60 rounded-2xl p-5 flex flex-col justify-between hover:border-zinc-700 transition-colors">
+      <div className="text-sm text-muted-foreground mb-4 font-medium">{title}</div>
       <div>
         <div className="text-3xl font-bold flex items-baseline gap-1">
           {value}
-          {unit && <span className="text-xl text-zinc-500 font-medium">{unit}</span>}
+          {unit && <span className="text-xl text-muted-foreground font-medium">{unit}</span>}
         </div>
         <div className={`text-xs mt-1 font-medium ${subtextColor}`}>{subtext}</div>
       </div>
