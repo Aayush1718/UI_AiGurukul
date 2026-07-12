@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useLogto } from "@logto/react";
 import { supabase } from "../lib/supabaseClient";
 import Button from "../components/Button.jsx";
+import { useUser } from "../context/UserContext";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { signOut, getIdTokenClaims } = useLogto();
+  const { signOut } = useLogto();
+  const { userName, userEmail, userId, phoneNumber, location, token, isProfileLoaded, refreshProfile } = useUser();
 
   const [showDeleteModal, setShowDeleteModal] =
     useState(false);
@@ -19,33 +21,22 @@ export default function ProfilePage() {
       name: "",
       email: "",
       userId: "",
+      phoneNumber: "",
+      location: "",
     });
 
+  // Sync from context once loaded
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const claims = await getIdTokenClaims();
-        if (claims?.sub) {
-          const { data } = await supabase
-            .from("users")
-            .select("name, email")
-            .eq("user_id", claims.sub)
-            .single();
-          if (data) {
-            setProfileData({
-              name: data.name || "",
-              email: data.email || claims.email || "",
-              userId: claims.sub,
-            });
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch profile:", err);
-      }
-    };
-
-    fetchProfile();
-  }, [getIdTokenClaims]);
+    if (isProfileLoaded) {
+      setProfileData({
+        name: userName,
+        email: userEmail,
+        userId: userId,
+        phoneNumber: phoneNumber,
+        location: location,
+      });
+    }
+  }, [isProfileLoaded, userName, userEmail, userId, phoneNumber, location]);
 
   const initials = profileData.name
     ? profileData.name
@@ -81,12 +72,29 @@ export default function ProfilePage() {
 
   const handleSaveProfile = async () => {
     if (!profileData.userId) return;
+    if (!token) {
+      console.error("No cached token available");
+      return;
+    }
     try {
       setIsSaving(true);
-      await supabase
-        .from("users")
-        .update({ name: profileData.name })
-        .eq("user_id", profileData.userId);
+
+      const res = await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: profileData.name,
+          phone_number: profileData.phoneNumber,
+          location: profileData.location,
+          email: profileData.email
+        })
+      });
+
+      if (!res.ok) throw new Error("Update failed");
+      await refreshProfile();
       setShowEditModal(false);
     } catch (err) {
       console.error("Failed to update profile", err);
@@ -100,7 +108,7 @@ export default function ProfilePage() {
 
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
 
         {/* Back */}
@@ -109,8 +117,8 @@ export default function ProfilePage() {
           className="
             mb-8
             text-sm
-            text-zinc-400
-            hover:text-white
+            text-muted-foreground
+            hover:text-foreground
             transition
           "
         >
@@ -123,7 +131,7 @@ export default function ProfilePage() {
             Account Settings
           </h1>
 
-          <p className="mt-2 text-zinc-400">
+          <p className="mt-2 text-muted-foreground">
             Manage your account and preferences.
           </p>
         </div>
@@ -136,8 +144,8 @@ export default function ProfilePage() {
             className="
               rounded-3xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-border
+              bg-muted
               p-8
               h-fit
             "
@@ -163,7 +171,7 @@ export default function ProfilePage() {
                 {profileData.name}
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-400">
+              <p className="mt-2 text-sm text-muted-foreground">
                 {profileData.email}
               </p>
 
@@ -191,8 +199,8 @@ export default function ProfilePage() {
               overflow-hidden
               rounded-3xl
               border
-              border-zinc-800
-              bg-zinc-900
+              border-border
+              bg-muted
             "
           >
             <button
@@ -205,10 +213,10 @@ export default function ProfilePage() {
                 items-center
                 justify-between
                 border-b
-                border-zinc-800
+                border-border
                 px-6
                 py-6
-                hover:bg-zinc-800/50
+                hover:bg-muted/50
                 transition
               "
             >
@@ -217,12 +225,12 @@ export default function ProfilePage() {
                   Edit Profile
                 </p>
 
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Update your personal information
                 </p>
               </div>
 
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 →
               </span>
             </button>
@@ -238,10 +246,10 @@ export default function ProfilePage() {
                 items-center
                 justify-between
                 border-b
-                border-zinc-800
+                border-border
                 px-6
                 py-6
-                hover:bg-zinc-800/50
+                hover:bg-muted/50
                 transition
               "
             >
@@ -250,12 +258,12 @@ export default function ProfilePage() {
                   Manage Security & Password
                 </p>
 
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Update password & authentication
                 </p>
               </div>
 
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
                 ↗
               </span>
             </button>
@@ -267,9 +275,11 @@ export default function ProfilePage() {
                 w-full
                 items-center
                 justify-between
+                border-b
+                border-border
                 px-6
                 py-6
-                hover:bg-zinc-800/50
+                hover:bg-muted/50
                 transition
               "
             >
@@ -278,33 +288,45 @@ export default function ProfilePage() {
                   Logout
                 </p>
 
-                <p className="text-sm text-zinc-500">
+                <p className="text-sm text-muted-foreground">
                   Sign out from your account
                 </p>
               </div>
 
-              <span className="text-zinc-500">
+              <span className="text-muted-foreground">
+                →
+              </span>
+            </button>
+
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="
+                flex
+                w-full
+                items-center
+                justify-between
+                px-6
+                py-6
+                hover:bg-red-950/20
+                transition
+                text-red-500
+              "
+            >
+              <div className="text-left">
+                <p className="font-medium">
+                  Delete Account
+                </p>
+
+                <p className="text-sm text-red-500/70">
+                  Permanently delete your account and all data
+                </p>
+              </div>
+
+              <span className="text-red-500/50">
                 →
               </span>
             </button>
           </div>
-        </div>
-
-        {/* Delete Account */}
-        <div className="mt-10">
-          <button
-            onClick={() =>
-              setShowDeleteModal(true)
-            }
-            className="
-              text-sm
-              text-red-400
-              hover:text-red-300
-              transition
-            "
-          >
-            Delete Account
-          </button>
         </div>
       </div>
 
@@ -327,8 +349,8 @@ export default function ProfilePage() {
               max-w-md
               rounded-3xl
               border
-              border-zinc-800
-              bg-[#111111]
+              border-border
+              bg-popover
               p-6
             "
           >
@@ -336,13 +358,13 @@ export default function ProfilePage() {
               Delete Account
             </h2>
 
-            <p className="mt-3 text-zinc-400">
+            <p className="mt-3 text-muted-foreground">
               This action cannot be undone.
               Your projects and account data
               will be permanently deleted.
             </p>
 
-            <p className="mt-5 text-sm text-zinc-500">
+            <p className="mt-5 text-sm text-muted-foreground">
               Type{" "}
               <span className="font-semibold text-red-400">
                 DELETE
@@ -360,8 +382,8 @@ export default function ProfilePage() {
                 w-full
                 rounded-xl
                 border
-                border-zinc-800
-                bg-zinc-950
+                border-border
+                bg-card
                 px-4
                 py-3
                 outline-none
@@ -378,7 +400,7 @@ export default function ProfilePage() {
                 className="
                   rounded-xl
                   border
-                  border-zinc-800
+                  border-border
                   px-4
                   py-2
                 "
@@ -425,8 +447,8 @@ export default function ProfilePage() {
               max-w-lg
               rounded-3xl
               border
-              border-zinc-800
-              bg-[#111111]
+              border-border
+              bg-popover
               p-6
             "
           >
@@ -436,7 +458,7 @@ export default function ProfilePage() {
 
             <div className="mt-6 space-y-4">
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Name
                 </label>
 
@@ -452,8 +474,8 @@ export default function ProfilePage() {
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-950
+                    border-border
+                    bg-card
                     px-4
                     py-3
                     outline-none
@@ -463,24 +485,75 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm text-zinc-400">
+                <label className="mb-2 block text-sm text-muted-foreground">
                   Email
                 </label>
 
                 <input
                   value={profileData.email}
+                  readOnly
+                  disabled
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-border
+                    bg-muted/50
+                    text-muted-foreground
+                    px-4
+                    py-3
+                    outline-none
+                    cursor-not-allowed
+                  "
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-muted-foreground">
+                  Phone Number
+                </label>
+
+                <input
+                  value={profileData.phoneNumber}
                   onChange={(e) =>
                     setProfileData({
                       ...profileData,
-                      email: e.target.value,
+                      phoneNumber: e.target.value,
                     })
                   }
                   className="
                     w-full
                     rounded-xl
                     border
-                    border-zinc-800
-                    bg-zinc-950
+                    border-border
+                    bg-card
+                    px-4
+                    py-3
+                    outline-none
+                    focus:border-violet-500
+                  "
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm text-muted-foreground">
+                  Location
+                </label>
+
+                <input
+                  value={profileData.location}
+                  onChange={(e) =>
+                    setProfileData({
+                      ...profileData,
+                      location: e.target.value,
+                    })
+                  }
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    border-border
+                    bg-card
                     px-4
                     py-3
                     outline-none
@@ -498,7 +571,7 @@ export default function ProfilePage() {
                 className="
                   rounded-xl
                   border
-                  border-zinc-800
+                  border-border
                   px-4
                   py-2
                 "

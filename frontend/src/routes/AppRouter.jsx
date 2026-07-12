@@ -7,21 +7,14 @@ import CallbackPage from "../pages/CallbackPage.jsx";
 import CompleteProfilePage from "../pages/CompleteProfilePage.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
+import FeasibilityAnalysisPage from "../pages/FeasibilityAnalysisPage.jsx";
 
 export default function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<DashboardPage />} />
       <Route path="/callback" element={<CallbackPage />} />
       <Route path="/complete-profile" element={<CompleteProfilePage />} />
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
       <Route
         path="/profile"
         element={
@@ -35,6 +28,14 @@ export default function AppRouter() {
         element={
           <ProtectedRoute>
             <BuildingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/feasibility"
+        element={
+          <ProtectedRoute>
+            <FeasibilityAnalysisPage />
           </ProtectedRoute>
         }
       />

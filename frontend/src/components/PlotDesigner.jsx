@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
 
 const INITIAL_POINTS = [
-  { id: 1, x: 80, y: 80 },
-  { id: 2, x: 350, y: 80 },
-  { id: 3, x: 350, y: 300 },
-  { id: 4, x: 80, y: 300 },
+  { id: 1, x: 80, y: 40 },
+  { id: 2, x: 350, y: 40 },
+  { id: 3, x: 350, y: 220 },
+  { id: 4, x: 80, y: 220 },
 ];
 
-export default function PlotDesigner() {
+export default function PlotDesigner({
+  selectedView,
+}) {
   const [points, setPoints] = useState(INITIAL_POINTS);
   const [selectedId, setSelectedId] = useState(null);
   const [draggingId, setDraggingId] = useState(null);
@@ -118,10 +120,10 @@ export default function PlotDesigner() {
       prev.map((point) =>
         point.id === id
           ? {
-              ...point,
-              [field]:
-                Number(value) || 0,
-            }
+            ...point,
+            [field]:
+              Number(value) || 0,
+          }
           : point
       )
     );
@@ -151,7 +153,7 @@ export default function PlotDesigner() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-4">
           <h2 className="font-semibold">
-            Plot Designer
+            {selectedView}
           </h2>
 
           {selectedId !== null && (
@@ -189,9 +191,9 @@ export default function PlotDesigner() {
             className="
               rounded-xl
               border
-              border-zinc-800
+              border-border
               px-3 py-2 md:px-4
-              hover:border-zinc-600
+              hover:border-primary
             "
           >
             + Point
@@ -202,9 +204,9 @@ export default function PlotDesigner() {
             className="
               rounded-xl
               border
-              border-zinc-800
+              border-border
               px-3 py-2 md:px-4
-              hover:border-zinc-600
+              hover:border-primary
             "
           >
             Reset
@@ -219,8 +221,8 @@ export default function PlotDesigner() {
           min-h-0
           rounded-2xl
           border
-          border-zinc-800
-          bg-zinc-950
+          border-border
+          bg-card
           relative
           overflow-hidden
         "
@@ -268,142 +270,142 @@ export default function PlotDesigner() {
           />
 
           {points.map((point) => (
-          <g key={point.id}>
-            <circle
-              cx={point.x}
-              cy={point.y}
-              r={16}
-              fill="transparent"
-              className="cursor-pointer"
-              onMouseDown={() => {
-                setDraggingId(point.id);
-                setSelectedId(point.id);
-              }}
-              onTouchStart={() => {
-                setDraggingId(point.id);
-                setSelectedId(point.id);
-              }}
-            />
+            <g key={point.id}>
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={16}
+                fill="transparent"
+                className="cursor-pointer"
+                onMouseDown={() => {
+                  setDraggingId(point.id);
+                  setSelectedId(point.id);
+                }}
+                onTouchStart={() => {
+                  setDraggingId(point.id);
+                  setSelectedId(point.id);
+                }}
+              />
 
-            <circle
-              cx={point.x}
-              cy={point.y}
-              r={
-                selectedId === point.id
-                  ? 10
-                  : 7
-              }
-              fill={
-                selectedId === point.id
-                  ? "#60a5fa"
-                  : "white"
-              }
-              className="pointer-events-none"
-            />
-          </g>
-        ))}
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={
+                  selectedId === point.id
+                    ? 10
+                    : 7
+                }
+                fill={
+                  selectedId === point.id
+                    ? "#60a5fa"
+                    : "white"
+                }
+                className="pointer-events-none"
+              />
+            </g>
+          ))}
         </svg>
       </div>
-
-      <div
-        className="
+      {selectedView === "Site Plan" && (
+        <div
+          className="
           mt-4
           h-40 md:h-44
           shrink-0
           rounded-2xl
           border
-          border-zinc-800
-          bg-zinc-900
+          border-border
+          bg-muted
           p-4
           flex
           flex-col
           overflow-hidden
         "
-      >
-        <h3
-          className="
+        >
+          <h3
+            className="
             mb-3
             text-sm
-            text-zinc-400
+            text-muted-foreground
           "
-        >
-          Coordinates
-        </h3>
+          >
+            Coordinates
+          </h3>
 
-        <div
-          className="
+          <div
+            className="
             flex-1
             overflow-y-auto
             space-y-2
             pr-2
           "
-        >
-          {points.map((point, idx) => (
-            <div
-              key={point.id}
-              className="
+          >
+            {points.map((point, idx) => (
+              <div
+                key={point.id}
+                className="
                 flex
                 flex-wrap
                 items-center
                 gap-2
               "
-            >
-              <div className="w-8 text-sm">
-                P{idx + 1}
-              </div>
+              >
+                <div className="w-8 text-sm">
+                  P{idx + 1}
+                </div>
 
-              <input
-                type="number"
-                value={Math.round(point.x)}
-                onChange={(e) =>
-                  updatePoint(
-                    point.id,
-                    "x",
-                    e.target.value
-                  )
-                }
-                className="
+                <input
+                  type="number"
+                  value={Math.round(point.x)}
+                  onChange={(e) =>
+                    updatePoint(
+                      point.id,
+                      "x",
+                      e.target.value
+                    )
+                  }
+                  className="
                   w-24 md:w-20
                   rounded-lg
                   border
                   border-zinc-700
-                  bg-zinc-950
+                  bg-card
                   px-2
                   py-1
                   text-sm
                 "
-              />
+                />
 
-              <input
-                type="number"
-                value={Math.round(point.y)}
-                onChange={(e) =>
-                  updatePoint(
-                    point.id,
-                    "y",
-                    e.target.value
-                  )
-                }
-                className="
+                <input
+                  type="number"
+                  value={Math.round(point.y)}
+                  onChange={(e) =>
+                    updatePoint(
+                      point.id,
+                      "y",
+                      e.target.value
+                    )
+                  }
+                  className="
                   w-24 md:w-20
                   rounded-lg
                   border
                   border-zinc-700
-                  bg-zinc-950
+                  bg-card
                   px-2
                   py-1
                   text-sm
                 "
-              />
+                />
 
-              <button
-                onClick={() =>
-                  deletePoint(point.id)
-                }
-                disabled={
-                  points.length <= 3
-                }
-                className="
+                <button
+                  onClick={() =>
+                    deletePoint(point.id)
+                  }
+                  disabled={
+                    points.length <= 3
+                  }
+                  className="
                   rounded-lg
                   border
                   border-red-900
@@ -414,13 +416,14 @@ export default function PlotDesigner() {
                   hover:bg-red-950/30
                   disabled:opacity-40
                 "
-              >
-                Delete
-              </button>
-            </div>
-          ))}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

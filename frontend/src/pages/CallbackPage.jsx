@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 
 export default function CallbackPage() {
   const navigate = useNavigate();
-  const { getIdTokenClaims } = useLogto();
+  const { getIdTokenClaims, getIdToken } = useLogto();
 
   const { isLoading } = useHandleSignInCallback(async () => {
     try {
@@ -13,30 +13,36 @@ export default function CallbackPage() {
       const userId = claims?.sub;
       const email = claims?.email;
 
-      if (!userId) {
+      const token = await getIdToken();
+      if (!userId || !token) {
         navigate("/");
         return;
       }
 
-      // Check if user already exists in Supabase
-      const { data: existingUser } = await supabase
-        .from("users")
-        .select("user_id")
-        .eq("user_id", userId)
-        .single();
+      // Check if user already exists and has complete profile via secure backend
+      let existingUser = null;
+      try {
+        const response = await fetch("/api/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-      if (existingUser) {
-        // Returning user — update last_login
-        await supabase
-          .from("users")
-          .update({ last_login: new Date().toISOString() })
-          .eq("user_id", userId);
-        navigate("/dashboard", { replace: true });
+        if (response.ok) {
+          existingUser = await response.json();
+        }
+      } catch (err) {
+        console.error("Error fetching profile via API:", err);
+      }
+
+      if (existingUser && existingUser.phone_number && existingUser.location) {
+        // Returning user with complete profile
+        navigate("/", { replace: true });
       } else {
-        // New user — needs to complete profile
+        // New user or missing profile details — needs to complete profile
         navigate("/complete-profile", {
           replace: true,
-          state: { userId, email },
+          state: { userId, email, existingUser },
         });
       }
     } catch (err) {
@@ -47,14 +53,14 @@ export default function CallbackPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="flex flex-col items-center gap-5">
           {/* Animated ring */}
           <div className="relative h-16 w-16">
             <div
               className="
                 absolute inset-0 rounded-full
-                border-2 border-zinc-800
+                border-2 border-border
               "
             />
             <div
@@ -66,10 +72,10 @@ export default function CallbackPage() {
           </div>
 
           <div className="text-center">
-            <p className="text-lg font-medium text-white">
+            <p className="text-lg font-medium text-foreground">
               Signing you in
             </p>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-muted-foreground">
               Just a moment...
             </p>
           </div>

@@ -50,8 +50,8 @@ export default function ProgressTracker() {
               step.status === "completed"
                 ? "border-green-500/30 bg-green-500/10 text-green-400"
                 : step.status === "current"
-                ? "border-white bg-white text-black"
-                : "border-zinc-800 bg-zinc-900 text-zinc-500"
+                ? "border-white bg-primary text-primary-foreground"
+                : "border-border bg-muted text-muted-foreground"
             }
           `}
         >

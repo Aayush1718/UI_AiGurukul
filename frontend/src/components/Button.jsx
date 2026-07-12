@@ -13,7 +13,7 @@ export default function Button({
         text-sm
         font-medium
         transition-all
-        duration-200 border border-zinc-700 text-white hover:border-zinc-500
+        duration-200 border border-zinc-700 text-foreground hover:border-zinc-500
         ${className}
       `}
       {...props}

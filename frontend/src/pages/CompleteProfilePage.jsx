@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { supabase } from "../lib/supabaseClient";
+import { useUser } from "../context/UserContext";
 
 export default function CompleteProfilePage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { userId, email } = location.state || {};
+  const locationState = useLocation();
+  const { userId, email, existingUser } = locationState.state || {};
+  const { token, refreshProfile } = useUser();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(existingUser?.name || "");
+  const [phoneNumber, setPhoneNumber] = useState(existingUser?.phone_number || "");
+  const [userLocation, setUserLocation] = useState(existingUser?.location || "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,29 +24,39 @@ export default function CompleteProfilePage() {
     e.preventDefault();
     setError("");
 
-    const trimmed = name.trim();
-    if (!trimmed) {
-      setError("Please enter your name.");
+    const trimmedName = name.trim();
+    const trimmedPhone = phoneNumber.trim();
+    const trimmedLoc = userLocation.trim();
+
+    if (!trimmedName || !trimmedPhone || !trimmedLoc) {
+      setError("Please fill out all fields.");
       return;
     }
 
     setSaving(true);
     try {
-      const { error: dbError } = await supabase.from("users").insert({
-        user_id: userId,
-        email: email || null,
-        name: trimmed,
-        created_at: new Date().toISOString(),
-        last_login: new Date().toISOString(),
+      if (!token) throw new Error("No token");
+
+      const response = await fetch("/api/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          phone_number: trimmedPhone,
+          location: trimmedLoc,
+          email: email || existingUser?.email || null
+        })
       });
 
-      if (dbError) {
-        console.error("Supabase insert error:", dbError);
-        setError("Something went wrong. Please try again.");
-        setSaving(false);
-        return;
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || "Failed to update profile");
       }
 
+      await refreshProfile();
       navigate("/dashboard", { replace: true });
     } catch (err) {
       console.error("Profile save error:", err);
@@ -53,7 +66,7 @@ export default function CompleteProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-8">
       {/* Subtle radial glow behind the card */}
       <div
         className="
@@ -65,8 +78,8 @@ export default function CompleteProfilePage() {
       <div
         className="
           relative z-10 w-full max-w-md
-          rounded-3xl border border-zinc-800
-          bg-zinc-950/80 backdrop-blur-xl
+          rounded-3xl border border-border
+          bg-card/80 backdrop-blur-xl
           p-6 sm:p-8 md:p-10
           shadow-[0_0_80px_-20px_rgba(255,255,255,0.06)]
         "
@@ -75,11 +88,11 @@ export default function CompleteProfilePage() {
         <div
           className="
             mx-auto mb-6 flex h-14 w-14 items-center justify-center
-            rounded-2xl bg-zinc-900 border border-zinc-800
+            rounded-2xl bg-muted border border-border
           "
         >
           <svg
-            className="h-7 w-7 text-white"
+            className="h-7 w-7 text-foreground"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
@@ -95,11 +108,11 @@ export default function CompleteProfilePage() {
 
         {/* Heading */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
             Complete Your Profile
           </h1>
-          <p className="mt-2 text-sm sm:text-base text-zinc-400">
-            One last step — tell us your name.
+          <p className="mt-2 text-sm sm:text-base text-muted-foreground">
+            Tell us a bit more about yourself.
           </p>
         </div>
 
@@ -108,12 +121,12 @@ export default function CompleteProfilePage() {
           <div
             className="
               mb-6 flex items-center gap-2
-              rounded-xl bg-zinc-900/60 border border-zinc-800
+              rounded-xl bg-muted/60 border border-border
               px-4 py-3
             "
           >
             <svg
-              className="h-4 w-4 shrink-0 text-zinc-500"
+              className="h-4 w-4 shrink-0 text-muted-foreground"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
@@ -125,7 +138,7 @@ export default function CompleteProfilePage() {
                 d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
               />
             </svg>
-            <span className="text-sm text-zinc-400 truncate">{email}</span>
+            <span className="text-sm text-muted-foreground truncate">{email}</span>
           </div>
         )}
 
@@ -134,7 +147,7 @@ export default function CompleteProfilePage() {
           <div>
             <label
               htmlFor="profile-name"
-              className="block text-sm font-medium text-zinc-300 mb-2"
+              className="block text-sm font-medium text-foreground mb-2"
             >
               Full Name
             </label>
@@ -146,9 +159,57 @@ export default function CompleteProfilePage() {
               onChange={(e) => setName(e.target.value)}
               autoFocus
               className="
-                w-full rounded-xl border border-zinc-800
-                bg-zinc-900/60 px-4 py-3 text-white
-                placeholder:text-zinc-600
+                w-full rounded-xl border border-border
+                bg-muted/60 px-4 py-3 text-foreground
+                placeholder:text-muted-foreground
+                outline-none
+                transition-all duration-200
+                focus:border-zinc-600 focus:ring-1 focus:ring-zinc-700
+              "
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="profile-phone"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
+              Phone Number
+            </label>
+            <input
+              id="profile-phone"
+              type="text"
+              placeholder="Enter your phone number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="
+                w-full rounded-xl border border-border
+                bg-muted/60 px-4 py-3 text-foreground
+                placeholder:text-muted-foreground
+                outline-none
+                transition-all duration-200
+                focus:border-zinc-600 focus:ring-1 focus:ring-zinc-700
+              "
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="profile-location"
+              className="block text-sm font-medium text-foreground mb-2"
+            >
+              Location
+            </label>
+            <input
+              id="profile-location"
+              type="text"
+              placeholder="City, Country"
+              value={userLocation}
+              onChange={(e) => setUserLocation(e.target.value)}
+              className="
+                w-full rounded-xl border border-border
+                bg-muted/60 px-4 py-3 text-foreground
+                placeholder:text-muted-foreground
                 outline-none
                 transition-all duration-200
                 focus:border-zinc-600 focus:ring-1 focus:ring-zinc-700
@@ -186,8 +247,8 @@ export default function CompleteProfilePage() {
             type="submit"
             disabled={saving}
             className="
-              w-full rounded-xl bg-white
-              py-3 font-medium text-black
+              w-full rounded-xl bg-primary
+              py-3 font-medium text-primary-foreground
               transition-all duration-200
               hover:bg-zinc-200 active:scale-[0.98]
               disabled:opacity-50 disabled:cursor-not-allowed
@@ -206,7 +267,7 @@ export default function CompleteProfilePage() {
         </form>
 
         {/* Privacy note */}
-        <p className="mt-6 text-center text-xs text-zinc-600">
+        <p className="mt-6 text-center text-xs text-muted-foreground">
           Your information is stored securely and never shared.
         </p>
       </div>
